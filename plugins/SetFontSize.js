@@ -27,6 +27,7 @@ try{
 				if (sSiz>=5 && sSiz<=40){
 					var html = sCon.replace(/font-size:(.*?)pt/g, 'font-size: '+ sSiz + 'pt')
 					plugin.setTextContent(-1, html, true);
+					plugin.setDomDirty(-1, true);
 				}
 				else{
 					alert("Value should be 5-40!")
