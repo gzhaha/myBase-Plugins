@@ -1,6 +1,6 @@
 # myBase Plugins
 
-The .js here are for myBase 7.x.
+The .js files are for myBase 7.x **only**.
 
 > More information about myBase 7.x can be found in the following website: [http://www.wjjsoft.com/mybase.html](http://www.wjjsoft.com/mybase.html "myBase Website").
 
