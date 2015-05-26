@@ -11,7 +11,7 @@ This folder contains all the plugins (**NOT OFFICIAL PLUGINS**) for myBase 7.x
 ## **Plugins Lists**
 ### 1. SetFontSize  
 This plugin Can be used to set the font size of current info item.  
-Please note, this plugin will change all the font size of the current info item and **do not have a reverse function**, meaning you **cannot use** `crtl+z` to reverse back. Currently, the font size can be set between 5-40pt.  
+Please note, this plugin will change all the font size of the current info item and **do not have a reverse function**, meaning you **cannot use** `Ctrl+z` to reverse back. Currently, the font size can be set between 5-40pt.  
 You can find this function (**Set Font Size**) by right click in the input area. 
 
 
