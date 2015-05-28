@@ -22,7 +22,7 @@ The below two markdown related plugins use the interface privided by **marked.js
 This Plugin can change the markdown syntax contents in info item to html. You can access to this function by selecting the contents and by right click menu -> Text Utilities -> md2html
 
 ### 2.2 Markdownattach.js
-This Plugin can change the .md attachment to html info item. You can access to this function by right click the .md attachment menu -> .mdatt2InfoItem. Please note running this plugin **will replace all the original content** and it **do not have** `crtl+z` function to reverse back.
+This Plugin can change the .md attachment to html info item. You can access to this function by right click the .md attachment menu -> .mdatt2InfoItem. Please note running this plugin **will replace all the original content** of the current info item and it **do not have** `crtl+z` function to reverse back.
 
 ## 3. WordCount.js ##
 This plugin can be used to calculate the word count of the selected contents in the info item. You can access to this function by selecting the content and via right click menu -> Text Utilities -> Word Count.
