@@ -19,7 +19,7 @@ Please note, this plugin will change all the font size of the current info item 
 The below two markdown related plugins use the interface provided by **marked.js**. To run these two plugins, you need first to download the **marked.js** from the project page: [https://github.com/chjj/marked](https://github.com/chjj/marked) and put to myBase \plugins folder.
 
 ### 2.1 Markdown2html.js
-This Plugin can change the markdown syntax contents in info item to HTML. You can access to this function by selecting the contents and by right click menu -> Text Utilities -> md2html
+This Plugin can change the markdown syntax contents in info item to HTML. You can access to this function by selecting the contents and by right click menu -> Text Utilities -> mdText2html
 
 ### 2.2 Markdownattach.js
 This Plugin can change the .md attachment to HTML info item. You can access to this function by right click the .md attachment menu -> .mdatt2InfoItem. Please note running this plugin **will replace all the original content** of the current info item and it **do not have** `crtl+z` function to reverse back.
