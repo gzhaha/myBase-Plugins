@@ -1,7 +1,7 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=md2html
-//sHint=MarkDown2html 26052015
+//sHint=MarkDownText2html 29052015
 //sCategory=MainMenu.TxtUtils
 //sPosition=TB-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
@@ -33,8 +33,9 @@ try{
 				//load marked.js
 				var sFile = plugin.getScriptFile();
 				var jsPath = sFile.substring(0,sFile.lastIndexOf('/'));
-				var sTxt=platform.parseFile(jsPath+"/marked.js");
-				eval.call(null, sTxt);
+				var s=new CLocalFile(jsPath+"/marked.js");
+				var sJs=s.loadText();
+				eval.call(null, sJs);
 				
 				//parse markdown text to html
 				var html = marked(sCon);
