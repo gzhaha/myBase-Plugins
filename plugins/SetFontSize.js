@@ -5,7 +5,7 @@
 //sCategory=Context.HtmlEdit
 //sPosition=TB-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT
-//sID=p.Ins.GzhahaSetFontSize
+//sID=p.gzhaha.SetFontSize
 //sAppVerMin=7.0
 //sShortcutKey=
 //sAuthor=Xia Zhang
@@ -25,7 +25,7 @@ try{
 				var sCon = plugin.getTextContent(-1, true);
 				var sSiz = prompt('Input Font Size (5-40)：', '16', 'Input Font Size');
 				if (sSiz>=5 && sSiz<=40){
-					var html = sCon.replace(/font-size:(.*?)pt/g, 'font-size: '+ sSiz + 'pt')
+					var html = sCon.replace(/font-size:(.*?)pt|font-size:(.*?)px/g, 'font-size: '+ sSiz + 'pt')
 					plugin.setTextContent(-1, html, true);
 					plugin.setDomDirty(-1, true);
 				}
