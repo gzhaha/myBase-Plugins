@@ -10,6 +10,7 @@ The .js files are **for myBase 7.x only**.
 2. Copy the .js file to \plugins folder.  
 3. Run the software again.  
 4. Based on the setting of the plugins, you can find the new functions from different menu.  
+5. More details can be found in myBase website: [http://www.wjjsoft.com/mybase_jsapi.html#install](http://www.wjjsoft.com/mybase_jsapi.html#install)
 
 **Note:**  
 1. This is **not official plugins** provided by myBase 7.  
