@@ -2,7 +2,7 @@
 //sValidation=nyfjs
 //sCaption=.mdatt2InfoItem
 //sHint=Load .MD Attachment to InfoItem 29052015
-//sCategory=MainMenu.Edit;Context.Attachments
+//sCategory=Context.Attachments
 //sPosition=TB-255
 //sCondition=CURDB
 //sID=p.gzhaha.MarkDownAtta
