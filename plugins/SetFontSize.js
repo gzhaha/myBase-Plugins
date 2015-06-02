@@ -1,9 +1,9 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=Set Font Size
-//sHint=Set Font Size 26052015
+//sHint=Set Font Size 02062015
 //sCategory=Context.HtmlEdit
-//sPosition=TB-255
+//sPosition=XZ-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT
 //sID=p.gzhaha.SetFontSize
 //sAppVerMin=7.0
