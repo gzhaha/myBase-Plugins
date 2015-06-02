@@ -1,10 +1,10 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=.mdatt2InfoItem
-//sHint=Load .MD Attachment to InfoItem 29052015
+//sHint=Load .MD Attachment to InfoItem 02062015
 //sCategory=Context.Attachments
-//sPosition=TB-255
-//sCondition=CURDB
+//sPosition=XZ-255
+//sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT
 //sID=p.gzhaha.MarkDownAtta
 //sAppVerMin=7.0
 //sShortcutKey=
@@ -14,7 +14,7 @@ try{
 	if(plugin.getCurDbIndex()>=0){
 		
 		var nyf=new CNyfDb(-1);
-		var f=new CLocalFile(plugin.getCurInfoItem(), 'note.md');
+		var f=new CLocalFile(plugin.getCurInfoItem());
 		var sRes=plugin.getSelectedAttachments('\t')||'';
 		if(sRes){
 			var vLines=sRes.split('\n');
@@ -31,6 +31,7 @@ try{
 		if(sFnSel){
 			var sRtf=nyf.loadText(sFnSel,'utf-8');
 		}
+		//load marked.js
 		var sFile = plugin.getScriptFile();
 		var jsPath = sFile.substring(0,sFile.lastIndexOf('/'));
 		var s=new CLocalFile(jsPath+"/marked.js");

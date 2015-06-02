@@ -1,9 +1,9 @@
 ﻿
 //sValidation=nyfjs
-//sCaption=md2html
-//sHint=MarkDownText2html 29052015
+//sCaption=mdText2html
+//sHint=MarkDownText2html 02062015
 //sCategory=MainMenu.TxtUtils
-//sPosition=TB-255
+//sPosition=XZ-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
 //sID=p.gzhaha.MarkDown2html
 //sAppVerMin=7.0
@@ -23,7 +23,7 @@ try{
 	if(xNyf.isOpen()){
 		if(!xNyf.isReadonly()){
 			if(plugin.isContentEditable()){
-				//get selected text
+				//get selected text from info item edit erea
 				var sCon = plugin.getSelectedText(-1, false);
 				
 				//formats(table,code,blockquote)

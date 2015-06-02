@@ -1,9 +1,9 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=Calculate
-//sHint=Calculate 30052015
+//sHint=Calculate 02062015
 //sCategory=MainMenu.TxtUtils
-//sPosition=TB-255
+//sPosition=XZ-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
 //sID=p.gzhaha.Calculate
 //sAppVerMin=7.0
@@ -21,7 +21,7 @@ try{
 	if(xNyf.isOpen()){
 		if(!xNyf.isReadonly()){
 			if(plugin.isContentEditable()){
-				//get selected text
+				//get selected text from info item edit area
 				var sCon = plugin.getSelectedText(-1, false);
 				
 				//load math.js
@@ -33,7 +33,9 @@ try{
 				
 				//Calculate
 				try{
+					//remove all space
 					sCon1 = sCon.replace(/\s/g, '')
+					
 					//Rounding for four digits 
 					var cResult = math.round(math.eval(sCon1)*10000)/10000;
 					var cFinal = sCon + " = " + cResult + ' ';

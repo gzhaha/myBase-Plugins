@@ -1,9 +1,9 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=Word Count
-//sHint=Word Count 26052015
+//sHint=Word Count 02062015
 //sCategory=MainMenu.TxtUtils
-//sPosition=TB-255
+//sPosition=XZ-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
 //sID=p.gzhaha.WordCount
 //sAppVerMin=7.0
