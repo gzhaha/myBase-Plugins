@@ -12,6 +12,7 @@
 
 //2015.6.6 Done
 //C/C++-like source code supported, such as C/C++, JS, PHP, Java, C#, etc.
+//added Python support
 
 //2015.6.6 Todo
 //Handle with if any HTML tags (e.g. <pre>, <code>, etc.) appearing in source code;
@@ -283,7 +284,27 @@ try{
 				'Ansi,Assembly,Auto,Binary,Compare,Custom,Explicit,IsFalse,IsTrue,Mid,Off'
 				+ ',Preserve,Strict,Text,Unicode,Until,#ExternalSource,#Region'
 				;
- 
+			
+			//2015.6.6 added for Python by gzhaha;
+			//https://docs.python.org/2/library/functions.html
+			var sTags_Python=
+				'abs,all,any,apply,basestring,bin,bool,buffer,callable'
+				+ ',chr,classmethod,cmp,coerce,compile,complex,delattr,dict,dir'
+				+ ',divmod,enumerate,eval,execfile,file,filter,float,format,frozenset'
+				+ ',getattr,globals,hasattr,hash,help,hex,id,input,int,intern'
+				+ ',isinstance,issubclass,iter,len,list,locals,long,map,max,min,next'
+				+ ',object,oct,open,ord,pow,print,property,range,raw_input,reduce'
+				+ ',reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod'
+				+ ',str,sum,super,tuple,type,type,unichr,unicode,vars,xrange,zip,__import__'
+				;
+			
+			//2015.6.6 added for Python by gzhaha;
+			var sTags_Pythonkw=
+				'and,as,assert,break,class,continue,def,del,elif,else'
+				+ ',except,exec,finally,for,from,global,if,import,in,is'
+				+ ',lambda,not,or,pass,print,raise,return,try,while,with,yield'
+				;
+			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -523,6 +544,7 @@ try{
 					, 'go': 'Google GO'
 					, 'gnur': 'GNU/R Language'
 					, 'vb': 'Visual Basic'
+					, 'py': 'Python'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -588,6 +610,15 @@ try{
 							sRemBlockStart='';
 							sRemBlockEnd='';
 							vRemLineTag=['REM', '\''];
+							break;
+						case 'py':
+							vTags=[
+								{sTags: sTags_Pythonkw, sColor: c_sColorKeywords}
+								, {sTags: sTags_Python, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['#'];
+							sRemBlockStart="'''";
+							sRemBlockEnd="'''";
 							break;
 					}
 
