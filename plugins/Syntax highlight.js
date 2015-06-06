@@ -12,7 +12,7 @@
 
 //2015.6.6 Done
 //C/C++-like source code supported, such as C/C++, JS, PHP, Java, C#, etc.
-//added Python support
+//added Python, Perl support
 
 //2015.6.6 Todo
 //Handle with if any HTML tags (e.g. <pre>, <code>, etc.) appearing in source code;
@@ -304,6 +304,36 @@ try{
 				+ ',except,exec,finally,for,from,global,if,import,in,is'
 				+ ',lambda,not,or,pass,print,raise,return,try,while,with,yield'
 				;
+				
+			//2015.6.6 added for Perl by gzhaha;
+			//http://perldoc.perl.org/index-functions.html
+			var sTags_Perl=
+				'abs,accept,alarm,atan2,bind,binmode,chdir,chmod,chomp,chop,chown,chr'
+				+ ',chroot,close,closedir,connect,cos,crypt,defined,delete,each,endgrent'
+				+ ',endhostent,endnetent,endprotoent,endpwent,endservent,eof,exec,exists'
+				+ ',exp,fcntl,fileno,flock,fork,format,formline,getc,getgrent,getgrgid'
+				+ ',getgrnam,gethostbyaddr,gethostbyname,gethostent,getlogin,getnetbyaddr'
+				+ ',getnetbyname,getnetent,getpeername,getpgrp,getppid,getpriority'
+				+ ',getprotobyname,getprotobynumber,getprotoent,getpwent,getpwnam,getpwuid'
+				+ ',getservbyname,getservbyport,getservent,getsockname,getsockopt,glob'
+				+ ',gmtime,grep,hex,index,int,ioctl,join,keys,kill,lc,lcfirst,length,link'
+				+ ',listen,localtime,lock,log,lstat,map,mkdir,msgctl,msgget,msgrcv,msgsnd'
+				+ ',oct,open,opendir,ord,pack,pipe,pop,pos,print,printf,prototype,push'
+				+ ',quotemeta,rand,read,readdir,readline,readlink,readpipe,recv,rename'
+				+ ',reset,reverse,rewinddir,rindex,rmdir,scalar,seek,seekdir,select,semctl'
+				+ ',semget,semop,send,setgrent,sethostent,setnetent,setpgrp,setpriority'
+				+ ',setprotoent,setpwent,setservent,setsockopt,shift,shmctl,shmget,shmread'
+				+ ',shmwrite,shutdown,sin,sleep,socket,socketpair,sort,splice,split,sprintf'
+				+ ',sqrt,srand,stat,study,substr,symlink,syscall,sysopen,sysread,sysseek'
+				+ ',system,syswrite,tell,telldir,time,times,tr,truncate,uc,ucfirst,umask'
+				+ ',undef,unlink,unpack,unshift,utime,values,vec,wait,waitpid,warn,write'
+				;
+			
+			var sTags_Perlkw=
+				'bless,caller,continue,dbmclose,dbmopen,die,do,dump,else,elsif,eval,exit'
+				+ ',for,foreach,goto,if,import,last,local,my,next,no,our,package,redo,ref'
+				+ ',require,return,sub,tie,tied,unless,untie,until,use,wantarray,while'
+				;
 			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
@@ -545,6 +575,7 @@ try{
 					, 'gnur': 'GNU/R Language'
 					, 'vb': 'Visual Basic'
 					, 'py': 'Python'
+					, 'pl': 'Perl' 
 				};
 
 				var vIDs=[], vLangs=[];
@@ -619,6 +650,15 @@ try{
 							vRemLineTag=['#'];
 							sRemBlockStart="'''";
 							sRemBlockEnd="'''";
+							break;
+						case 'pl':
+							vTags=[
+								{sTags: sTags_Perlkw, sColor: c_sColorKeywords}
+								, {sTags: sTags_Perl, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['#'];
+							sRemBlockStart="=pod";
+							sRemBlockEnd="=cut";
 							break;
 					}
 
