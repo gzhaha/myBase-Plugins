@@ -27,7 +27,7 @@ try{
 				var sCon = plugin.getSelectedText(-1, false);
 				
 				//formats(table,code,blockquote)
-				var sCode='\n'+'var xStyle=document.getElementsByTagName("style")[0]; if(xStyle.innerHTML.indexOf("code") < 0) {var t = document.createTextNode("\\ntable{border-collapse:collapse; border:solid black; border-width:2px 0 2px 1px;}\\nth, td {border:solid black;border-width:2px 1px 1px 0;padding:1px;}\\nth {background-color:#DDD}\\ntable tr:nth-child(2n) {background-color: #f8f8f8;}\\nblockquote{border-left: 6px solid #DDD; color:#777}\\ncode {font-size: 98%;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;}\\np{font-weight:normal}"); xStyle.appendChild(t); document.head.appendChild(xStyle);}; ';
+				var sCode='\n'+'var xStyle=document.getElementsByTagName("style")[0]; if(xStyle.innerHTML.indexOf("code") < 0) {var t = document.createTextNode("\\ntable{border-collapse:collapse; border:solid black; border-width:2px 0 2px 1px;}\\nth, td {border:solid black;border-width:2px 1px 1px 0;padding:1px;}\\nth {background-color:#DDD}\\ntable tr:nth-child(2n) {background-color: #f8f8f8;}\\nblockquote{border-left: 6px solid #DDD; color:#777}\\ncode {background-color:#EEE;border-radius: 3px; padding: 3px 5px 0px 5px;border: 1px solid #D6D6D6;color: #D14;}\\np{font-weight:normal}"); xStyle.appendChild(t); document.head.appendChild(xStyle);}; ';
 				plugin.runDomScript(-1, sCode);
 				
 				//load marked.js
