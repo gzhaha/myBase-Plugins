@@ -18,7 +18,8 @@
 //added Python, Perl
 
 //2015.6.7 by gzhaha
-//updated R, added ActionScript
+//updated R, added ActionScript, Ruby
+//efforts on dealing with # symbol within quotation marks: '...#...' or "...#..."
 
 //12:31 6/7/2015
 //efforts on dealing with if any html-tags (e.g. <pre>, <code>) in source code
@@ -353,6 +354,19 @@ try{
 				+ ',namespace,native,override,set,static'
 				;
 			
+			//2015.6.7 added for Ruby by gzhaha;
+			var sTags_Ruby=
+				'alias,and,BEGIN,begin,break,case,class,def,define_method,defined,do,each,else,elsif'
+				+ ',END,end,ensure,false,for,if,in,module,new,next,nil,not,or,raise,redo,rescue,retry,return'
+				+ ',self,super,then,throw,true,undef,unless,until,when,while,yield'
+				;
+			
+			var sTags_RubyBI=
+				'Array Bignum Binding Class Continuation Dir Exception FalseClass File::Stat File Fixnum Fload'
+				+',Hash Integer IO MatchData Method Module NilClass Numeric Object Proc Range Regexp String Struct::TMS Symbol'
+				+',ThreadGroup Thread Time TrueClass'
+				;
+			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -394,12 +408,16 @@ try{
 
 				var _replace=function(sLine, sRemLineTag){
 					if(sLine && sRemLineTag){
-						var xRE=new RegExp(sRemLineTag+'(.*)$', '');
-						sLine=sLine.replace(xRE, function(w){
-							var sTag=_ref_tag();
-							vRem[vRem.length]={sTag: sTag, sVal: w};
-							return sTag;
-						});
+						//2015.6.7 efforts on dealing with # symbol within quotation marks: '...#...' or "...#..."
+						if (sLine.search(/\".*\#.*\"/) < 0 && sLine.search(/\'.*\#.*\'/) <0){
+							
+							var xRE=new RegExp(sRemLineTag+'(.*)$', '');
+							sLine=sLine.replace(xRE, function(w){
+								var sTag=_ref_tag();
+								vRem[vRem.length]={sTag: sTag, sVal: w};
+								return sTag;
+							});
+						}
 					}
 					return sLine;
 				};
@@ -605,6 +623,7 @@ try{
 					, 'py': 'Python'
 					, 'pl': 'Perl'
 					, 'acsc': 'ActionScript'
+					, 'ruby': 'Ruby'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -693,6 +712,15 @@ try{
 							vTags=[
 								{sTags: sTags_ActionScript, sColor: c_sColorKeywords}
 							];
+							break;
+						case 'ruby':
+							vTags=[
+								{sTags: sTags_Ruby, sColor: c_sColorKeywords}
+								, {sTags: sTags_RubyBI, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['#'];
+							sRemBlockStart="=begin";
+							sRemBlockEnd="=end";
 							break;
 					}
 
