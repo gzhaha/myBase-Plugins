@@ -11,6 +11,19 @@
 //sAuthor=wjjsoft
 
 
+//2015.6.6 commit by wjj;
+//C/C++-like source code supported, such as C/C++, JS, PHP, Java, C#, etc.
+
+//2015.6.6 by gzhaha
+//added Python, Perl
+
+//2015.6.7 by gzhaha
+//updated R, added ActionScript
+
+//12:31 6/7/2015
+//efforts on dealing with if any html-tags (e.g. <pre>, <code>) in source code
+
+
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
 
@@ -236,10 +249,11 @@ try{
 				;
 
 			//2012.7.19 added for R-language;
+			//2015.6.7 add more keywords by gzhaha
 			var sTags_R=
 				'break,else,for,function,if,TRUE,in'
 				+ ',next,repeat,return,while,FALSE,switch'
-				+ ',NULL,NA,NaN'
+				+ ',NULL,NA,NaN,NA_integer_,NA_real_,NA_complex_,NA_character_'
 				;
 
 			//2012.7.19  added for Google GO
@@ -324,6 +338,16 @@ try{
 				'bless,caller,continue,dbmclose,dbmopen,die,do,dump,else,elsif,eval,exit'
 				+ ',for,foreach,goto,if,import,last,local,my,next,no,our,package,redo,ref'
 				+ ',require,return,sub,tie,tied,unless,untie,until,use,wantarray,while'
+				;
+			
+			//2015.6.7 added for ActionScript by gzhaha;
+			//http://help.adobe.com/zh_CN/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7f9b.html
+			var sTags_ActionScript=
+				'as,break,case,catch,class,const,default,delete,do,else,extends,finally'
+				+ ',for,function,if,implements,import,in,instanceof,interface,internal,is'
+				+ ',native,new,null,package,private,protected,public,return,super,switch,this'
+				+ ',throw,try,typeof,use,var,void,while,with,dynamic,each,final,get,include'
+				+ ',namespace,native,override,set,static'
 				;
 			
 			//Array objects to save strings/remarks substituted with internal tags;
@@ -552,7 +576,8 @@ try{
 					, 'gnur': 'GNU/R Language'
 					, 'vb': 'Visual Basic'
 					, 'py': 'Python'
-					, 'pl': 'Perl' 
+					, 'pl': 'Perl'
+					, 'acsc': 'ActionScript'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -636,6 +661,11 @@ try{
 							vRemLineTag=['#'];
 							sRemBlockStart="=pod";
 							sRemBlockEnd="=cut";
+							break;
+						case 'acsc':
+							vTags=[
+								{sTags: sTags_ActionScript, sColor: c_sColorKeywords}
+							];
 							break;
 					}
 
