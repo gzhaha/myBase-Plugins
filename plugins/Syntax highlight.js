@@ -23,7 +23,7 @@
 //12:31 6/7/2015
 //efforts on dealing with if any html-tags (e.g. <pre>, <code>) in source code
 
-17:47 6/7/2015
+//17:47 6/7/2015
 //bugfix with < > operators in source code
 
 
