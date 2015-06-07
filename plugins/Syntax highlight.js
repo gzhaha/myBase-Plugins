@@ -1,7 +1,7 @@
 
 //sValidation=nyfjs
 //sCaption=Syntax highlight ...
-//sHint=Highlight source code by syntax of programming language
+//sHint=Make selected source code syntax highlighted
 //sCategory=MainMenu.Edit; Context.HtmlEdit
 //sPosition=
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT
@@ -9,15 +9,6 @@
 //sAppVerMin=7.0
 //sShortcutKey=
 //sAuthor=wjjsoft
-
-//2015.6.6 Done
-//C/C++-like source code supported, such as C/C++, JS, PHP, Java, C#, etc.
-//added Python, Perl support
-
-//2015.6.6 Todo
-//Handle with if any HTML tags (e.g. <pre>, <code>, etc.) appearing in source code;
-//HTML-like source code not support;
-//Support of more languages;
 
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
@@ -46,20 +37,20 @@ try{
 
 		if(!xNyf.isReadonly() && plugin.isContentEditable()){
 
-			var c_nFontSize=10; //(pt);
-			var c_sFontName='Lucida Console, Courier New'; //avoid font names containing Asian characters;
+			var c_sFontSize='10pt';
+			var c_sFontName='Lucida Console, Courier New';
 
-			var c_sColorNormal='#000000'; //'\\red0\\green0\\blue0'; //cf1
-			var c_sColorRemarks='#008000'; //'\\red0\\green128\\blue0'; //cf2
-			var c_sColorStrings='#800080'; //'\\red128\\green0\\blue128'; //cf3
-			var c_sColorNumbers='#ff0000'; //'\\red255\\green0\\blue0'; //cf4
+			var c_sColorNormal='#000000';
+			var c_sColorRemarks='#008000';
+			var c_sColorStrings='#800080';
+			var c_sColorNumbers='#ff0000';
 
-			var c_sColorKeywords='#0000ff'; //'\\red0\\green0\\blue255'; //cf5
+			var c_sColorKeywords='#0000ff';
 
-			var c_sColorReservedTags1='#8000ff'; //'\\red128\\green0\\blue255'; //cf6
-			var c_sColorReservedTags2='#004080'; //'\\red0\\green64\\blue128'; //cf7
-			var c_sColorReservedTags3='#ff8000'; //'\\red255\\green128\\blue0'; //cf8
-			var c_sColorReservedTags4='#0080c0'; //'\\red0\\green128\\blue192'; //cf9
+			var c_sColorReservedTags1='#8000ff';
+			var c_sColorReservedTags2='#004080';
+			var c_sColorReservedTags3='#ff8000';
+			var c_sColorReservedTags4='#0080c0';
 
 			var sTags_Cpp=
 				//for C++ Macros
@@ -386,7 +377,7 @@ try{
 					return sLine;
 				};
 
-				//substitute the remark lines with internal tags;
+				//substitute internal tags for the remark lines;
 				for(var i in vRemLineTag){
 					sLine=_replace(sLine, vRemLineTag[i]);
 				}
@@ -395,8 +386,8 @@ try{
 
 			var _parse_strings=function(sLine, sQuotationMark){
 
-				//substitute constants of C-string/HTML-value, like "...";
-				//substitute constants of JS-string/HTML-value/C-char, like '...';
+				//substitute for constants of C-string/HTML-value, like "...";
+				//substitute for constants of JS-string/HTML-value/C-char, like '...';
 
 				var _pos_of_quotationmark=function(s, iStart){
 					var p;
@@ -433,14 +424,10 @@ try{
 			};
 
 			var _restore_strings=function(s){
-				//restore Strings;
+				//restore String contants;
 				for(var j=vStr.length-1; j>=0; --j){
 					var sTag=vStr[j].sTag, sVal=vStr[j].sVal;
-					//2012.4.16 should append a SPACE at end of control words,
-					//otherwise the next SPACE (if any) will be eaten from literal text;
-					//var r='\\b\\cf3 '+sVal+'\\cf1\\b0';
-					//var r='\\b\\cf3 '+sVal+'\\cf1\\b0 '; //append the ending SPACE;
-					var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+sVal+'</span>';
+					var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+_html_encode(sVal)+'</span>';
 					s=s.replace(sTag, r);
 				}
 				return s;
@@ -453,8 +440,7 @@ try{
 					var v=sVal.split('\n'), r='';
 					for(var i in v){
 						if(r) r+='\n';
-						//r+='\\cf2\\i '+v[i]+'\\i0\\cf1';
-						r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+v[i]+'</span>';
+						r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+_html_encode(v[i])+'</span>';
 					}
 					s=s.replace(sTag, r);
 				}
@@ -471,35 +457,28 @@ try{
 				s=_parse_remark_blocks(s, sRemBlockStart, sRemBlockEnd);
 
 				var _highlight_tags=function(sLine, sTags, sColor, bNoCase){
-					sTags=sTags.replace(/,/g, '|'); //make into RegExp pattern;
+					sTags=sTags.replace(/,/g, '|').replace(/\s/g, ''); //make into RegExp pattern;
 					if(sLine && sTags){
 
 						var sFmt='<span style="color: %COLOR%;">'.replace(/%COLOR%/g, sColor);
 
-						//2012.2.3 add the '\t' at both begin/end of the line, to ensure isolated keyword (if any) in a line is highlighted as well.
-						sLine='\t'+sLine+'\t';
-
-						//This RegExp test but not save nor consume trailing characters;
-						var xRE=new RegExp( '(\\W+)(' + sTags + ')(?=\\W)', 'g'+(bNoCase?'i':''));
+						//This RegExp tests but not save/consume trailing characters;
+						var xRE=new RegExp( '(\\W+|^)(' + sTags + ')(?=\\W|$)', 'g'+(bNoCase?'i':''));
 						sLine=sLine.replace(xRE, function(w, s1, s2){
 							return s1+sFmt+s2+'</span>';
 						});
-
-						//2012.2.3 remove the 2 '\t' temporarily added (see above);
-						sLine=sLine.replace(/(^\t)|(\t$)/g, '');
 					}
 					return sLine;
 				};
 
 				var _highlight_numbers=function(sLine, sColor){
-					//2012.1.30 Not fully working with some c++ code like: (wYear%4==0 && wYear%100>0) || (wYear%400==0);
 					if(sLine){
 						var sFmt='<span style="color: %COLOR%;">'.replace(/%COLOR%/g, sColor);
 
 						//Hexadecimal, Decimal/Float;
 						var xRE=new RegExp( '(\\W+)((?:0x[0-9a-f]+)|(?:[0-9.]+))(?=\\W?)', 'ig');
 						sLine=sLine.replace(xRE, function(w, s1, s2){
-							//first check to see if it is a tag for strings/comments;
+							//first check to see if it is a tag for strings/remarks;
 							var p=s1.indexOf(sRefTag1);
 							if(p>=0 && p==s1.length-sRefTag1.length){
 								return w; //avoid replacing temporary tags of strings/remarks;
@@ -517,7 +496,7 @@ try{
 
 				for(var k in vLines){
 
-					var sLine=vLines[k]; //_html_encode(vLines[k]);
+					var sLine=vLines[k];
 
 					var sTitle=_trim(sLine), nMaxLen=32; if(sTitle.length>nMaxLen) sTitle=sTitle.substr(0,nMaxLen);
 					var bContinue=plugin.ctrlProgressBar(sTitle, 1, true);
@@ -532,8 +511,6 @@ try{
 					for(var j in vTags){
 						var d=vTags[j];
 						var sTags=d.sTags, sColor=d.sColor, bNoCase=d.bNoCase;
-
-						//2012.2.2 All keywords go into a single RegExp, this runs much faster than above;
 						sLine=_highlight_tags(sLine, sTags, sColor, bNoCase);
 					}
 
@@ -551,7 +528,7 @@ try{
 
 				s='<pre><code style="font-family: %FONTNAME%; font-size: %FONTSIZE%;">'
 					.replace(/%FONTNAME%/g, c_sFontName)
-					.replace(/%FONTSIZE%/g, c_nFontSize)
+					.replace(/%FONTSIZE%/g, c_sFontSize)
 					+s
 					+'</code></pre>'
 					;
@@ -595,7 +572,7 @@ try{
 
 					var sID=vIDs[iSel];
 
-					var vTags=[], sRemBlockStart='/*', sRemBlockEnd='*/', vRemLineTag=['//'];
+					var vTags=[], sRemBlockStart='/*', sRemBlockEnd='*/', vRemLineTag=['//'], sGenre='cpp';
 					switch(sID){
 						case 'cpp':
 							vTags=[{sTags: sTags_Cpp, sColor: c_sColorKeywords}];
@@ -662,7 +639,15 @@ try{
 							break;
 					}
 
-					var sHtml=_syntax_cpplike(sSrc, vTags, sRemBlockStart, sRemBlockEnd, vRemLineTag);
+					var sHtml;
+					{
+						if(sGenre=='cpp'){
+							sHtml=_syntax_cpplike(sSrc, vTags, sRemBlockStart, sRemBlockEnd, vRemLineTag);
+						}else if(sGenre=='html'){
+							//todo ......
+						}
+					}
+
 					if(sHtml){
 						plugin.replaceSelectedText(-1, sHtml, true);
 					}
