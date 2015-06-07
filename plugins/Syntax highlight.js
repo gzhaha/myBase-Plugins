@@ -23,6 +23,9 @@
 //12:31 6/7/2015
 //efforts on dealing with if any html-tags (e.g. <pre>, <code>) in source code
 
+17:47 6/7/2015
+//bugfix with < > operators in source code
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -391,7 +394,7 @@ try{
 
 				var _replace=function(sLine, sRemLineTag){
 					if(sLine && sRemLineTag){
-						xRE=new RegExp(sRemLineTag+'(.*)$', '');
+						var xRE=new RegExp(sRemLineTag+'(.*)$', '');
 						sLine=sLine.replace(xRE, function(w){
 							var sTag=_ref_tag();
 							vRem[vRem.length]={sTag: sTag, sVal: w};
@@ -451,7 +454,8 @@ try{
 				//restore String contants;
 				for(var j=vStr.length-1; j>=0; --j){
 					var sTag=vStr[j].sTag, sVal=vStr[j].sVal;
-					var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+_html_encode(sVal)+'</span>';
+					//var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+_html_encode(sVal)+'</span>';
+					var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+sVal+'</span>';
 					s=s.replace(sTag, r);
 				}
 				return s;
@@ -464,7 +468,8 @@ try{
 					var v=sVal.split('\n'), r='';
 					for(var i in v){
 						if(r) r+='\n';
-						r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+_html_encode(v[i])+'</span>';
+						//r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+_html_encode(v[i])+'</span>';
+						r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+v[i]+'</span>';
 					}
 					s=s.replace(sTag, r);
 				}
@@ -479,21 +484,6 @@ try{
 					;
 
 				s=_parse_remark_blocks(s, sRemBlockStart, sRemBlockEnd);
-
-				var _highlight_tags=function(sLine, sTags, sColor, bNoCase){
-					sTags=sTags.replace(/,/g, '|').replace(/\s/g, ''); //make into RegExp pattern;
-					if(sLine && sTags){
-
-						var sFmt='<span style="color: %COLOR%;">'.replace(/%COLOR%/g, sColor);
-
-						//This RegExp tests but not save/consume trailing characters;
-						var xRE=new RegExp( '(\\W+|^)(' + sTags + ')(?=\\W|$)', 'g'+(bNoCase?'i':''));
-						sLine=sLine.replace(xRE, function(w, s1, s2){
-							return s1+sFmt+s2+'</span>';
-						});
-					}
-					return sLine;
-				};
 
 				var _highlight_numbers=function(sLine, sColor){
 					if(sLine){
@@ -514,12 +504,47 @@ try{
 					return sLine;
 				};
 
-				var vLines=s.split('\n'), xRE;
+				var _highlight_tags=function(sLine, sTags, sColor, bNoCase){
+					sTags=sTags.replace(/,/g, '|').replace(/\s/g, ''); //make into RegExp pattern;
+					if(sLine && sTags){
+
+						var sFmt='<span style="color: %COLOR%;">'.replace(/%COLOR%/g, sColor);
+
+						//This RegExp tests but not save/consume trailing characters;
+						var xRE=new RegExp( '(\\W+|^)(' + sTags + ')(?=\\W|$)', 'g'+(bNoCase?'i':''));
+						sLine=sLine.replace(xRE, function(w, s1, s2){
+							return s1+sFmt+s2+'</span>';
+						});
+					}
+					return sLine;
+				};
+
+
+				//2015.6.7 the opertotors < and > in source code may cause confusion to webkit without transformation;
+				//tried a solution of precedingly transforming < and > operators into HTML entities,
+				//and assumed that 'lt,gt' are not listed as keywords for any languages;
+				//s=s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+				//Unfortunately, both lt and gt could be in use as keywords in some languages e.g. Perl;
+				//Another solution: substitute special tags for < and > operators before syntax highlighting, 
+				//and finally replace the tags with the appropriate HTML entities after all done;
+
+				var sTagLT='`L`T`', sTagGT='`G`T`';
+				var xReLT=new RegExp(sTagLT, 'g'), xReGT=new RegExp(sTagGT, 'g');
+				s=s.replace(/</g, sTagLT).replace(/>/g, sTagGT);
+
+				var vLines=s.split('\n');
 
 				plugin.initProgressRange(plugin.getScriptTitle(), vLines.length);
 
 				for(var k in vLines){
 
+					//2015.6.7 the opertotors < and > in source code may cause confusion to webkit without transformation;
+					//tried to precedingly transform < and > operators into HTML entities;
+					//and assumed that 'lt,gt' are not listed as keywords for any languages;
+					//var sLine=vLines[k].replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+					//Unfortunately, both lt and gt are used as keywords in Perl;
+					//Workaround: substitute special tags for < and > operators, and restore them after all done;
 					var sLine=vLines[k];
 
 					var sTitle=_trim(sLine), nMaxLen=32; if(sTitle.length>nMaxLen) sTitle=sTitle.substr(0,nMaxLen);
@@ -550,7 +575,9 @@ try{
 				s=_restore_strings(s);
 				s=_restore_remarks(s);
 
-				s='<pre><code style="font-family: %FONTNAME%; font-size: %FONTSIZE%;">'
+				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;');
+
+				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%;"><code>'
 					.replace(/%FONTNAME%/g, c_sFontName)
 					.replace(/%FONTSIZE%/g, c_sFontSize)
 					+s
