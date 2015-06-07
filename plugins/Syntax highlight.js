@@ -27,6 +27,8 @@
 //17:47 6/7/2015
 //bugfix with < > operators in source code
 
+//2015.6.8 by gzhaha
+//added Delphi
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -367,6 +369,22 @@ try{
 				+',ThreadGroup Thread Time TrueClass'
 				;
 			
+			//2015.6.8 added for Delphi by gzhaha;
+			var sTags_Delphi=
+				'abs,addr,and,ansichar,ansistring,array,as,asm,begin,boolean,byte,cardinal'
+				+',case,char,class,comp,const,constructor,currency,destructor,div,do,double'
+				+',downto,else,end,except,exports,extended,false,file,finalization,finally'
+				+',for,function,goto,if,implementation,in,inherited,int64,initialization'
+				+',integer,interface,is,label,library,longint,longword,mod,nil,not,object'
+				+',of,on,or,packed,pansichar,pansistring,pchar,pcurrency,pdatetime,pextended'
+				+',pint64,pointer,private,procedure,program,property,pshortstring,pstring'
+				+',pvariant,pwidechar,pwidestring,protected,public,published,raise,real,real48'
+				+',record,repeat,set,shl,shortint,shortstring,shr,single,smallint,string,then'
+				+',threadvar,to,true,try,type,unit,until,uses,val,var,varirnt,while,widechar'
+				+',widestring,with,word,write,writeln,xor'
+				;
+						
+			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -624,6 +642,7 @@ try{
 					, 'pl': 'Perl'
 					, 'acsc': 'ActionScript'
 					, 'ruby': 'Ruby'
+					, 'delphi': 'Delphi'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -721,6 +740,13 @@ try{
 							vRemLineTag=['#'];
 							sRemBlockStart="=begin";
 							sRemBlockEnd="=end";
+							break;
+						case 'delphi':
+							vTags=[
+								{sTags: sTags_Delphi, sColor: c_sColorKeywords}
+							];
+							sRemBlockStart="{";
+							sRemBlockEnd="}";
 							break;
 					}
 
