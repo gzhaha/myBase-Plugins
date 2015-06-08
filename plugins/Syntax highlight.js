@@ -28,7 +28,7 @@
 //bugfix with < > operators in source code
 
 //2015.6.8 by gzhaha
-//added Delphi, Pig Latin
+//added Delphi, Pig Latin, Bash
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -400,10 +400,32 @@ try{
 			
 			var sTags_PigLatinKW=
 			'VOID,IMPORT,RETURNS,DEFINE,LOAD,FILTER,FOREACH,ORDER,CUBE,DISTINCT,COGROUP'
-			+ 'JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
-			+ 'PARTITION,GROUP,AND,OR,NOT,GENERATE,FLATTEN,ASC,DESC,IS,STREAM,THROUGH,STORE,MAPREDUCE'
-			+ 'SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
-			+ 'NEQ,MATCHES,TRUE,FALSE,DUMP'
+			+ ',JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
+			+ ',PARTITION,GROUP,AND,OR,NOT,GENERATE,FLATTEN,ASC,DESC,IS,STREAM,THROUGH,STORE,MAPREDUCE'
+			+ ',SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
+			+ ',NEQ,MATCHES,TRUE,FALSE,DUMP'
+			;
+			
+			//2015.6.8 added for Bash by gzhaha;
+			var sTags_BASH=
+			'if,fi,then,elif,else,for,do,done,until,while,break,continue,case,function,return,in,eq,ne,ge,le'
+			;
+			
+			var sTags_BASHBI=
+			'alias,apropos,awk,basename,bash,bc,bg,builtin,bzip2,cal,cat,cd,cfdisk,chgrp,chmod,chown,chroot'
+			+',cksum,clear,cmp,comm,command,cp,cron,crontab,csplit,cut,date,dc,dd,ddrescue,declare,df'
+			+',diff,diff3,dig,dir,dircolors,dirname,dirs,du,echo,egrep,eject,enable,env,ethtool,eval'
+			+',exec,exit,expand,export,expr,false,fdformat,fdisk,fg,fgrep,file,find,fmt,fold,format'
+			+',free,fsck,ftp,gawk,getopts,grep,groups,gzip,hash,head,history,hostname,id,ifconfig'
+			+',import,install,join,kill,less,let,ln,local,locate,logname,logout,look,lpc,lpr,lprint'
+			+',lprintd,lprintq,lprm,ls,lsof,make,man,mkdir,mkfifo,mkisofs,mknod,more,mount,mtools'
+			+',mv,netstat,nice,nl,nohup,nslookup,open,op,passwd,paste,pathchk,ping,popd,pr,printcap'
+			+',printenv,printf,ps,pushd,pwd,quota,quotacheck,quotactl,ram,rcp,read,readonly,renice'
+			+',remsync,rm,rmdir,rsync,screen,scp,sdiff,sed,select,seq,set,sftp,shift,shopt,shutdown'
+			+',sleep,sort,source,split,ssh,strace,su,sudo,sum,symlink,sync,tail,tar,tee,test,time'
+			+',times,touch,top,traceroute,trap,tr,true,tsort,tty,type,ulimit,umask,umount,unalias'
+			+',uname,unexpand,uniq,units,unset,unshar,useradd,usermod,users,uuencode,uudecode,v,vdir'
+			+',vi,watch,wc,whereis,which,who,whoami,Wget,xargs,yes'
 			;
 			
 			//Array objects to save strings/remarks substituted with internal tags;
@@ -665,6 +687,7 @@ try{
 					, 'ruby': 'Ruby'
 					, 'delphi': 'Delphi'
 					, 'pigla': 'Pig Latin'
+					, 'bash': 'Bash'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -776,6 +799,15 @@ try{
 								, {sTags: sTags_PigLatin, sColor: c_sColorReservedTags3}
 							];
 							vRemLineTag=['--'];
+							break;
+						case 'bash':
+							vTags=[
+								{sTags: sTags_BASH, sColor: c_sColorKeywords}
+								, {sTags: sTags_BASHBI, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['#'];
+							sRemBlockStart='';
+							sRemBlockEnd='';
 							break;
 					}
 
