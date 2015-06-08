@@ -28,7 +28,7 @@
 //bugfix with < > operators in source code
 
 //2015.6.8 by gzhaha
-//added Delphi
+//added Delphi, Pig Latin
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -384,6 +384,27 @@ try{
 				+',widestring,with,word,write,writeln,xor'
 				;
 						
+			//2015.6.8 added for Pig Latin by gzhaha;
+			var sTags_PigLatin=
+			'ABS,ACOS,ARITY,ASIN,ATAN,AVG,BAGSIZE,BINSTORAGE,BLOOM,BUILDBLOOM,CBRT,CEIL'
+			+ ',CONCAT,COR,COS,COSH,COUNT,COUNT_STAR,COV,CONSTANTSIZE,CUBEDIMENSIONS,DIFF,DISTINCT,DOUBLEABS'
+			+ ',DOUBLEAVG,DOUBLEBASE,DOUBLEMAX,DOUBLEMIN,DOUBLEROUND,DOUBLESUM,EXP,FLOOR,FLOATABS,FLOATAVG'
+			+ ',FLOATMAX,FLOATMIN,FLOATROUND,FLOATSUM,GENERICINVOKER,INDEXOF,INTABS,INTAVG,INTMAX,INTMIN'
+			+ ',INTSUM,INVOKEFORDOUBLE,INVOKEFORFLOAT,INVOKEFORINT,INVOKEFORLONG,INVOKEFORSTRING,INVOKER'
+			+ ',ISEMPTY,JSONLOADER,JSONMETADATA,JSONSTORAGE,LAST_INDEX_OF,LCFIRST,LOG,LOG10,LOWER,LONGABS'
+			+ ',LONGAVG,LONGMAX,LONGMIN,LONGSUM,MAX,MIN,MAPSIZE,MONITOREDUDF,NONDETERMINISTIC,OUTPUTSCHEMA'
+			+ ',PIGSTORAGE,PIGSTREAMING,RANDOM,REGEX_EXTRACT,REGEX_EXTRACT_ALL,REPLACE,ROUND,SIN,SINH,SIZE'
+			+ ',SQRT,STRSPLIT,SUBSTRING,SUM,STRINGCONCAT,STRINGMAX,STRINGMIN,STRINGSIZE,TAN,TANH,TOBAG'
+			+ ',TOKENIZE,TOMAP,TOP,TOTUPLE,TRIM,TEXTLOADER,TUPLESIZE,UCFIRST,UPPER,UTF8STORAGECONVERTER'
+			;
+			
+			var sTags_PigLatinKW=
+			'VOID,IMPORT,RETURNS,DEFINE,LOAD,FILTER,FOREACH,ORDER,CUBE,DISTINCT,COGROUP'
+			+ 'JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
+			+ 'PARTITION,GROUP,AND,OR,NOT,GENERATE,FLATTEN,ASC,DESC,IS,STREAM,THROUGH,STORE,MAPREDUCE'
+			+ 'SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
+			+ 'NEQ,MATCHES,TRUE,FALSE,DUMP'
+			;
 			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
@@ -643,6 +664,7 @@ try{
 					, 'acsc': 'ActionScript'
 					, 'ruby': 'Ruby'
 					, 'delphi': 'Delphi'
+					, 'pigla': 'Pig Latin'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -747,6 +769,13 @@ try{
 							];
 							sRemBlockStart="{";
 							sRemBlockEnd="}";
+							break;
+						case 'pigla':
+							vTags=[
+								{sTags: sTags_PigLatinKW, sColor: c_sColorKeywords}
+								, {sTags: sTags_PigLatin, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['--'];
 							break;
 					}
 
