@@ -4,7 +4,7 @@
 //sHint=Make selected source code syntax highlighted
 //sCategory=MainMenu.Edit; Context.HtmlEdit
 //sPosition=
-//sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT
+//sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
 //sID=p.SyntaxHighlight
 //sAppVerMin=7.0
 //sShortcutKey=
@@ -30,6 +30,11 @@
 //2015.6.8 by gzhaha
 //added Delphi, Pig Latin, Bash
 
+//11:41 6/9/2015
+//added Cpp/Qt
+//deal with HTML entities in source code (&nbsp;, &amp;, &#8195, &#x2003 ...)
+
+
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
 
@@ -44,7 +49,7 @@ var _html_encode=function(s)
 	s=s.replace(/>/g,	'&gt;');
 	s=s.replace(/\"/g,	'&quot;');
 	s=s.replace(/\'/g,	'&apos;');
-	s=s.replace(/  /g,	' &nbsp;'); //&nbsp; = non-breaking space;
+	s=s.replace(/  /g,	'&nbsp; ');
 	//and more ...
 	return s;
 };
@@ -70,6 +75,9 @@ try{
 			var c_sColorReservedTags2='#004080';
 			var c_sColorReservedTags3='#ff8000';
 			var c_sColorReservedTags4='#0080c0';
+			var c_sColorReservedTags5='#ff007f';
+			var c_sColorReservedTags6='#ff5500';
+			var c_sColorReservedTags7='#ff557f';
 
 			var sTags_Cpp=
 				//for C++ Macros
@@ -109,6 +117,13 @@ try{
 				+ ',iterator,const_iterator,reverse_iterator,const_reverse_iterator'
 				+ ',back_insert_iterator,front_insert_iterator,insert_iterator'
 				+ ',istream_iterator,ostream_iterator,istreambuf_iterator,ostreambuf_iterator'
+				;
+
+			var sTags_Qt=
+				+ 'qint8,qint16,qint32,qint64,qlonglong,qptrdiff,qreal,quint8,quint16,quint32,quint64,quintptr,qulonglong,uchar,uint,ulong,ushort'
+				+ ', QT_\\w\+,Q_\\w\+' //global Macros
+				+ ',q[A-Z]\\w\+,qgetenv,qputenv,qrand,qsrand,qtTrId' //gloabl Functions
+				+ ',Q\\w\+' //Qt widgets/classes
 				;
 
 			var sTags_Java=
@@ -599,17 +614,18 @@ try{
 				};
 
 
-				//2015.6.7 the opertotors < and > in source code may cause confusion to webkit without transformation;
+				//2015.6.7 the opertotors (<, &, >) in source code may cause confusion to webkit on parsing them as HTML without pre-transformation;
 				//tried a solution of precedingly transforming < and > operators into HTML entities,
 				//and assumed that 'lt,gt' are not listed as keywords for any languages;
 				//s=s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-				//Unfortunately, both lt and gt could be in use as keywords in some languages e.g. Perl;
+				//Unfortunately, both lt and gt could be in use as keywords in some languages e.g. Perl, Bash;
 				//Another solution: substitute special tags for < and > operators before syntax highlighting, 
 				//and finally replace the tags with the appropriate HTML entities after all done;
+				//2015.6.9 also need to substitute for the & character, so HTML entities can be preserved in resulting HTML.
 
-				var sTagLT='`L`T`', sTagGT='`G`T`';
-				var xReLT=new RegExp(sTagLT, 'g'), xReGT=new RegExp(sTagGT, 'g');
-				s=s.replace(/</g, sTagLT).replace(/>/g, sTagGT);
+				var sTagLT='`L`T`', sTagGT='`G`T`', sTagAND='`A`N`D`';
+				var xReLT=new RegExp(sTagLT, 'g'), xReGT=new RegExp(sTagGT, 'g'), xReAND=new RegExp(sTagAND, 'g');
+				s=s.replace(/</g, sTagLT).replace(/>/g, sTagGT).replace(/&/g, sTagAND);
 
 				var vLines=s.split('\n');
 
@@ -654,13 +670,13 @@ try{
 				s=_restore_strings(s);
 				s=_restore_remarks(s);
 
-				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;');
+				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;').replace(xReAND, '&amp;');
 
 				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%;"><code>'
 					.replace(/%FONTNAME%/g, c_sFontName)
 					.replace(/%FONTSIZE%/g, c_sFontSize)
-					+s
-					+'</code></pre>'
+					+ s
+					+ '</code></pre>'
 					;
 
 				return s;
@@ -673,6 +689,7 @@ try{
 				var xLang={
 					  'cpp': 'C/C++'
 					, 'cppstl': 'C/C++ with STL'
+					, 'cppstlqt': 'C/C++ with STL/Qt'
 					, 'java': 'Java'
 					, 'cs': 'C#'
 					, 'js': 'Javascript'
@@ -713,7 +730,17 @@ try{
 							vTags=[{sTags: sTags_Cpp, sColor: c_sColorKeywords}];
 							break;
 						case 'cppstl':
-							vTags=[{sTags: sTags_Cpp, sColor: c_sColorKeywords}, {sTags: sTags_Stl, sColor: c_sColorReservedTags1}];
+							vTags=[
+								{sTags: sTags_Cpp, sColor: c_sColorKeywords}
+								, {sTags: sTags_Stl, sColor: c_sColorReservedTags1}
+							];
+							break;
+						case 'cppstlqt':
+							vTags=[
+								{sTags: sTags_Cpp, sColor: c_sColorKeywords}
+								, {sTags: sTags_Stl, sColor: c_sColorReservedTags1}
+								, {sTags: sTags_Qt, sColor: c_sColorReservedTags5, bNoCase: false}
+							];
 							break;
 						case 'java':
 							vTags=[{sTags: sTags_Java, sColor: c_sColorKeywords}];
@@ -726,7 +753,7 @@ try{
 								{sTags: sTags_JS, sColor: c_sColorKeywords}
 								, {sTags: sTags_JSConst, sColor: c_sColorNumbers}
 								, {sTags: sTags_JSDom, sColor: c_sColorReservedTags1}
-								, {sTags: sTags_JSEvent, sColor: c_sColorReservedTags2}
+								, {sTags: sTags_JSEvent, sColor: c_sColorReservedTags3}
 							];
 							break;
 						case 'sql':
