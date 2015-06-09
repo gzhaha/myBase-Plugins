@@ -18,7 +18,8 @@
 //added Python, Perl
 
 //2015.6.7 by gzhaha
-//updated R, added ActionScript
+//updated R, added ActionScript, Ruby
+//efforts on dealing with # symbol within quotation marks: '...#...' or "...#..."
 
 //12:31 6/7/2015
 //efforts on dealing with if any html-tags (e.g. <pre>, <code>) in source code
@@ -26,6 +27,8 @@
 //17:47 6/7/2015
 //bugfix with < > operators in source code
 
+//2015.6.8 by gzhaha
+//added Delphi, Pig Latin, Bash
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -353,6 +356,78 @@ try{
 				+ ',namespace,native,override,set,static'
 				;
 			
+			//2015.6.7 added for Ruby by gzhaha;
+			var sTags_Ruby=
+				'alias,and,BEGIN,begin,break,case,class,def,define_method,defined,do,each,else,elsif'
+				+ ',END,end,ensure,false,for,if,in,module,new,next,nil,not,or,raise,redo,rescue,retry,return'
+				+ ',self,super,then,throw,true,undef,unless,until,when,while,yield'
+				;
+			
+			var sTags_RubyBI=
+				'Array Bignum Binding Class Continuation Dir Exception FalseClass File::Stat File Fixnum Fload'
+				+',Hash Integer IO MatchData Method Module NilClass Numeric Object Proc Range Regexp String Struct::TMS Symbol'
+				+',ThreadGroup Thread Time TrueClass'
+				;
+			
+			//2015.6.8 added for Delphi by gzhaha;
+			var sTags_Delphi=
+				'abs,addr,and,ansichar,ansistring,array,as,asm,begin,boolean,byte,cardinal'
+				+',case,char,class,comp,const,constructor,currency,destructor,div,do,double'
+				+',downto,else,end,except,exports,extended,false,file,finalization,finally'
+				+',for,function,goto,if,implementation,in,inherited,int64,initialization'
+				+',integer,interface,is,label,library,longint,longword,mod,nil,not,object'
+				+',of,on,or,packed,pansichar,pansistring,pchar,pcurrency,pdatetime,pextended'
+				+',pint64,pointer,private,procedure,program,property,pshortstring,pstring'
+				+',pvariant,pwidechar,pwidestring,protected,public,published,raise,real,real48'
+				+',record,repeat,set,shl,shortint,shortstring,shr,single,smallint,string,then'
+				+',threadvar,to,true,try,type,unit,until,uses,val,var,varirnt,while,widechar'
+				+',widestring,with,word,write,writeln,xor'
+				;
+						
+			//2015.6.8 added for Pig Latin by gzhaha;
+			var sTags_PigLatin=
+			'ABS,ACOS,ARITY,ASIN,ATAN,AVG,BAGSIZE,BINSTORAGE,BLOOM,BUILDBLOOM,CBRT,CEIL'
+			+ ',CONCAT,COR,COS,COSH,COUNT,COUNT_STAR,COV,CONSTANTSIZE,CUBEDIMENSIONS,DIFF,DISTINCT,DOUBLEABS'
+			+ ',DOUBLEAVG,DOUBLEBASE,DOUBLEMAX,DOUBLEMIN,DOUBLEROUND,DOUBLESUM,EXP,FLOOR,FLOATABS,FLOATAVG'
+			+ ',FLOATMAX,FLOATMIN,FLOATROUND,FLOATSUM,GENERICINVOKER,INDEXOF,INTABS,INTAVG,INTMAX,INTMIN'
+			+ ',INTSUM,INVOKEFORDOUBLE,INVOKEFORFLOAT,INVOKEFORINT,INVOKEFORLONG,INVOKEFORSTRING,INVOKER'
+			+ ',ISEMPTY,JSONLOADER,JSONMETADATA,JSONSTORAGE,LAST_INDEX_OF,LCFIRST,LOG,LOG10,LOWER,LONGABS'
+			+ ',LONGAVG,LONGMAX,LONGMIN,LONGSUM,MAX,MIN,MAPSIZE,MONITOREDUDF,NONDETERMINISTIC,OUTPUTSCHEMA'
+			+ ',PIGSTORAGE,PIGSTREAMING,RANDOM,REGEX_EXTRACT,REGEX_EXTRACT_ALL,REPLACE,ROUND,SIN,SINH,SIZE'
+			+ ',SQRT,STRSPLIT,SUBSTRING,SUM,STRINGCONCAT,STRINGMAX,STRINGMIN,STRINGSIZE,TAN,TANH,TOBAG'
+			+ ',TOKENIZE,TOMAP,TOP,TOTUPLE,TRIM,TEXTLOADER,TUPLESIZE,UCFIRST,UPPER,UTF8STORAGECONVERTER'
+			;
+			
+			var sTags_PigLatinKW=
+			'VOID,IMPORT,RETURNS,DEFINE,LOAD,FILTER,FOREACH,ORDER,CUBE,DISTINCT,COGROUP'
+			+ ',JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
+			+ ',PARTITION,GROUP,AND,OR,NOT,GENERATE,FLATTEN,ASC,DESC,IS,STREAM,THROUGH,STORE,MAPREDUCE'
+			+ ',SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
+			+ ',NEQ,MATCHES,TRUE,FALSE,DUMP'
+			;
+			
+			//2015.6.8 added for Bash by gzhaha;
+			var sTags_BASH=
+			'if,fi,then,elif,else,for,do,done,until,while,break,continue,case,function,return,in,eq,ne,ge,le'
+			;
+			
+			var sTags_BASHBI=
+			'alias,apropos,awk,basename,bash,bc,bg,builtin,bzip2,cal,cat,cd,cfdisk,chgrp,chmod,chown,chroot'
+			+',cksum,clear,cmp,comm,command,cp,cron,crontab,csplit,cut,date,dc,dd,ddrescue,declare,df'
+			+',diff,diff3,dig,dir,dircolors,dirname,dirs,du,echo,egrep,eject,enable,env,ethtool,eval'
+			+',exec,exit,expand,export,expr,false,fdformat,fdisk,fg,fgrep,file,find,fmt,fold,format'
+			+',free,fsck,ftp,gawk,getopts,grep,groups,gzip,hash,head,history,hostname,id,ifconfig'
+			+',import,install,join,kill,less,let,ln,local,locate,logname,logout,look,lpc,lpr,lprint'
+			+',lprintd,lprintq,lprm,ls,lsof,make,man,mkdir,mkfifo,mkisofs,mknod,more,mount,mtools'
+			+',mv,netstat,nice,nl,nohup,nslookup,open,op,passwd,paste,pathchk,ping,popd,pr,printcap'
+			+',printenv,printf,ps,pushd,pwd,quota,quotacheck,quotactl,ram,rcp,read,readonly,renice'
+			+',remsync,rm,rmdir,rsync,screen,scp,sdiff,sed,select,seq,set,sftp,shift,shopt,shutdown'
+			+',sleep,sort,source,split,ssh,strace,su,sudo,sum,symlink,sync,tail,tar,tee,test,time'
+			+',times,touch,top,traceroute,trap,tr,true,tsort,tty,type,ulimit,umask,umount,unalias'
+			+',uname,unexpand,uniq,units,unset,unshar,useradd,usermod,users,uuencode,uudecode,v,vdir'
+			+',vi,watch,wc,whereis,which,who,whoami,Wget,xargs,yes'
+			;
+			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -394,12 +469,16 @@ try{
 
 				var _replace=function(sLine, sRemLineTag){
 					if(sLine && sRemLineTag){
-						var xRE=new RegExp(sRemLineTag+'(.*)$', '');
-						sLine=sLine.replace(xRE, function(w){
-							var sTag=_ref_tag();
-							vRem[vRem.length]={sTag: sTag, sVal: w};
-							return sTag;
-						});
+						//2015.6.7 efforts on dealing with # symbol within quotation marks: '...#...' or "...#..."
+						if (sLine.search(/\".*\#.*\"/) < 0 && sLine.search(/\'.*\#.*\'/) <0){
+							
+							var xRE=new RegExp(sRemLineTag+'(.*)$', '');
+							sLine=sLine.replace(xRE, function(w){
+								var sTag=_ref_tag();
+								vRem[vRem.length]={sTag: sTag, sVal: w};
+								return sTag;
+							});
+						}
 					}
 					return sLine;
 				};
@@ -605,6 +684,10 @@ try{
 					, 'py': 'Python'
 					, 'pl': 'Perl'
 					, 'acsc': 'ActionScript'
+					, 'ruby': 'Ruby'
+					, 'delphi': 'Delphi'
+					, 'pigla': 'Pig Latin'
+					, 'bash': 'Bash'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -693,6 +776,38 @@ try{
 							vTags=[
 								{sTags: sTags_ActionScript, sColor: c_sColorKeywords}
 							];
+							break;
+						case 'ruby':
+							vTags=[
+								{sTags: sTags_Ruby, sColor: c_sColorKeywords}
+								, {sTags: sTags_RubyBI, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['#'];
+							sRemBlockStart="=begin";
+							sRemBlockEnd="=end";
+							break;
+						case 'delphi':
+							vTags=[
+								{sTags: sTags_Delphi, sColor: c_sColorKeywords}
+							];
+							sRemBlockStart="{";
+							sRemBlockEnd="}";
+							break;
+						case 'pigla':
+							vTags=[
+								{sTags: sTags_PigLatinKW, sColor: c_sColorKeywords}
+								, {sTags: sTags_PigLatin, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['--'];
+							break;
+						case 'bash':
+							vTags=[
+								{sTags: sTags_BASH, sColor: c_sColorKeywords}
+								, {sTags: sTags_BASHBI, sColor: c_sColorReservedTags3}
+							];
+							vRemLineTag=['#'];
+							sRemBlockStart='';
+							sRemBlockEnd='';
 							break;
 					}
 

@@ -13,7 +13,7 @@ This folder contains the plugins for myBase 7.x.
 
 # Plugins Lists
 ## 1. Syntax highlight.js ##
-This plugin is originally provied by WJJ, which supports Syntax highlight for C/C++, C/C++ with STL, Java, C#, Javascript, T-SQL, PHP, Google GO, GNU/R Language and Visual Basic. I added syntax highlight support for Python, Perl.   
+The main contributor of this plugin is WJJ. This plugin supports Syntax highlight for C/C++, C/C++ with STL, Java, C#, Javascript, T-SQL, PHP, Google GO, GNU/R Language and Visual Basic and still **under development**.  
 This function can be accessed by selecting the content and right click menu "Syntax highlight...".
 
 ## 2. SetFontSize.js (**Unofficial Plugin**)
