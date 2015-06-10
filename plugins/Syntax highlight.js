@@ -1,10 +1,10 @@
 
 //sValidation=nyfjs
 //sCaption=Syntax highlight ...
-//sHint=Make selected source code syntax highlighted
+//sHint=Syntax highlight the whole or selected source code
 //sCategory=MainMenu.Edit; Context.HtmlEdit
 //sPosition=
-//sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
+//sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT;
 //sID=p.SyntaxHighlight
 //sAppVerMin=7.0
 //sShortcutKey=
@@ -33,6 +33,9 @@
 //11:41 6/9/2015
 //added Cpp/Qt
 //deal with HTML entities in source code (&nbsp;, &amp;, &#8195, &#x2003 ...)
+
+//12:24 6/10/2015
+//removed the 'HTMLSELECTED' requirement, so it can handle all content in HTML editor without having to first select all lines;
 
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
@@ -682,7 +685,11 @@ try{
 				return s;
 			};
 
-			var sSrc=plugin.getSelectedText(-1, false);
+			var sSrc=plugin.getSelectedText(-1, false), bWhole=false;
+			if(!sSrc){
+				bWhole=true;
+				sSrc=plugin.getTextContent(-1, false);
+			}
 
 			if(sSrc){
 
@@ -848,7 +855,28 @@ try{
 					}
 
 					if(sHtml){
-						plugin.replaceSelectedText(-1, sHtml, true);
+						if(bWhole){
+
+							if(plugin.selectAllText){ //2015.6.10 requires latest build b-20;
+
+								plugin.selectAllText();
+								plugin.replaceSelectedText(-1, sHtml, true);
+
+							}else{
+
+								//2015.6.10 setHTML clears the entire DOM including UNDO stack, so it needs to first save if any changes as a history revision for Undoable;
+								if(plugin.isContentEditable()) plugin.commitCurrentChanges();
+
+								plugin.setTextContent(-1, sHtml, true);
+								plugin.setDomDirty(-1, true);
+
+							}
+
+						}else{
+
+							plugin.replaceSelectedText(-1, sHtml, true);
+
+						}
 					}
 				}
 
