@@ -1,7 +1,7 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=Set Font Size
-//sHint=Set Font Size 02062015
+//sHint=Set Font Size 11062015
 //sCategory=Context.HtmlEdit
 //sPosition=XZ-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT
@@ -21,11 +21,13 @@ try{
 	if(xNyf.isOpen()){
 		if(!xNyf.isReadonly()){
 			if(plugin.isContentEditable()){
-				//get selected text
+				//get text
 				var sCon = plugin.getTextContent(-1, true);
 				var sSiz = prompt('Input Font Size (5-40)：', '16', 'Input Font Size');
 				if (sSiz>=5 && sSiz<=40){
-					var html = sCon.replace(/font-size:(.*?)pt|font-size:(.*?)px/g, 'font-size: '+ sSiz + 'pt')
+					//match px, pt, %
+					var regx = /font-size:( |)\d{1,2}(|\.\d+)(| )pt|font-size:( |)\d{1,2}(|\.\d+)(| )px|font-size:( |)\d{1,3}(| )%/g
+					var html = sCon.replace(regx, 'font-size: '+ sSiz + 'pt')
 					plugin.setTextContent(-1, html, true);
 					plugin.setDomDirty(-1, true);
 				}
