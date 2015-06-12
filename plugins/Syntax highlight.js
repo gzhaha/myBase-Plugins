@@ -46,6 +46,9 @@
 //12:24 6/10/2015
 //removed the 'HTMLSELECTED' requirement, so it can handle all content in HTML editor without having to first select all lines;
 
+//2015.6.11 by gzhaha
+//add js+myBase
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -455,6 +458,26 @@ try{
 			+',vi,watch,wc,whereis,which,who,whoami,Wget,xargs,yes'
 			;
 			
+			//2015.6.11 added for myBase by gzhaha;
+			var sTags_myBase=
+			'about,alert,confirm,prompt,dropdown,textbox,beep,sleep,_gc'
+			+ ',platform.getOpenFileName,platform.getOpenFileNames,platform.getSaveFileName,platform.browseForFolder'
+			+ ',platform.getTempFile,platform.getTempPath,platform.getHomePath,platform.getCurrentPath,platform.deferDeleteFile'
+			+ ',platform.extractTextFromRtf,platform.extractTextFromHtml,platform.parseFile,platform.tokenizeText'
+			+ ',plugin.getAppWorkingDir,plugin.getAppExeFile,plugin.getPluginID,plugin.getScriptFile,plugin.getScriptTitle'
+			+ ',plugin.getShortcutFile,plugin.getLanguageFile,plugin.getPathToLangFiles,plugin.getDefRootContainer'
+			+ ',plugin.getDefNoteFn,plugin.refreshDocViews,plugin.refreshOutline,plugin.refreshLabelTree,plugin.refreshCalendar'
+			+ ',plugin.refreshOverview,plugin.getLocaleMsg,plugin.getDbCount,plugin.getDbIndex,plugin.getCurDbIndex'
+			+ ',plugin.getCurNavigationTab,plugin.getCurDocFile,plugin.getCurDocPath,plugin.getCurInfoItem,plugin.getCurLabelItem'
+			+ ',plugin.getSelectedInfoItems,plugin.getSelectedText,plugin.getTextContent,plugin.setTextContent'
+			+ ',plugin.replaceSelectedText,plugin.getQueryResults,plugin.runQuery,plugin.appendToResults'
+			+ ',plugin.setResultsPaneTitle,plugin.showResultsPane,plugin.initProgressRange,plugin.showProgressMsg'
+			+ ',plugin.ctrlProgressBar,plugin.destroyProgressBar,plugin.commitCurrentChanges,plugin.isContentEditable'
+			+ ',plugin.runDomScript,plugin.setDomDirty,plugin.setDomReadonly,plugin.getItemIDByPath,plugin.getPathByItemID'
+			+ ',localStorage.getItem,localStorage.setItem,localStorage.removeItem,localStorage.clear'
+			+ ',CNyfDb,CLocalFile,CLocalDir'
+			;
+			
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -709,6 +732,7 @@ try{
 					, 'java': 'Java'
 					, 'cs': 'C#'
 					, 'js': 'Javascript'
+					, 'jsmybase': 'Javascript with myBase'
 					, 'sql': 'T-SQL'
 					, 'php': 'PHP'
 					, 'go': 'Google GO'
@@ -770,6 +794,15 @@ try{
 								, {sTags: sTags_JSConst, sColor: c_sColorNumbers}
 								, {sTags: sTags_JSDom, sColor: c_sColorReservedTags1}
 								, {sTags: sTags_JSEvent, sColor: c_sColorReservedTags3}
+							];
+							break;
+						case 'jsmybase':
+							vTags=[
+								{sTags: sTags_JS, sColor: c_sColorKeywords}
+								, {sTags: sTags_JSConst, sColor: c_sColorNumbers}
+								, {sTags: sTags_JSDom, sColor: c_sColorReservedTags1}
+								, {sTags: sTags_JSEvent, sColor: c_sColorReservedTags3}
+								, {sTags: sTags_myBase, sColor: c_sColorReservedTags6}
 							];
 							break;
 						case 'sql':
