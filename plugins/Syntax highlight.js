@@ -49,6 +49,10 @@
 //2015.6.11 by gzhaha
 //add js+myBase
 
+//2015.6.12 by gzhaha
+//add: substitute for $ character, the issue is related to parse '$' in source code
+//add: substitute for the \ character, the issue is related to parse \\ in source code.
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -532,15 +536,16 @@ try{
 				var _replace=function(sLine, sRemLineTag){
 					if(sLine && sRemLineTag){
 						//2015.6.7 efforts on dealing with # symbol within quotation marks: '...#...' or "...#..."
-						if (sLine.search(/\".*\#.*\"/) < 0 && sLine.search(/\'.*\#.*\'/) <0){
+						//2015.6.12 no need for this changes now.
+						//if (sLine.search(/\".*\#.*\"/) < 0 && sLine.search(/\'.*\#.*\'/) <0){
 							
-							var xRE=new RegExp(sRemLineTag+'(.*)$', '');
-							sLine=sLine.replace(xRE, function(w){
-								var sTag=_ref_tag();
-								vRem[vRem.length]={sTag: sTag, sVal: w};
-								return sTag;
-							});
-						}
+						var xRE=new RegExp(sRemLineTag+'(.*)$', '');
+						sLine=sLine.replace(xRE, function(w){
+							var sTag=_ref_tag();
+							vRem[vRem.length]={sTag: sTag, sVal: w};
+							return sTag;
+						});
+						//}
 					}
 					return sLine;
 				};
@@ -669,10 +674,12 @@ try{
 				//Another solution: substitute special tags for < and > operators before syntax highlighting, 
 				//and finally replace the tags with the appropriate HTML entities after all done;
 				//2015.6.9 also need to substitute for the & character, so HTML entities can be preserved in resulting HTML.
+				//2015.6.12 also need to substitute for the $ character, the issue is related to parse '$' in source code.
+				//2015.6.12 also need to substitute for the \ character, the issue is related to parse \\ in source code.
 
-				var sTagLT='`L`T`', sTagGT='`G`T`', sTagAND='`A`N`D`';
-				var xReLT=new RegExp(sTagLT, 'g'), xReGT=new RegExp(sTagGT, 'g'), xReAND=new RegExp(sTagAND, 'g');
-				s=s.replace(/</g, sTagLT).replace(/>/g, sTagGT).replace(/&/g, sTagAND);
+				var sTagLT='`L`T`', sTagGT='`G`T`', sTagAND='`A`N`D`', sTagDL='`D`O`L`', sTagBS='`B`W`S`';
+				var xReLT=new RegExp(sTagLT, 'g'), xReGT=new RegExp(sTagGT, 'g'), xReAND=new RegExp(sTagAND, 'g'), xReDL=new RegExp(sTagDL, 'g'), xReBS=new RegExp(sTagBS, 'g');
+				s=s.replace(/</g, sTagLT).replace(/>/g, sTagGT).replace(/&/g, sTagAND).replace(/\$/g, sTagDL).replace(/\\/g, sTagBS);
 
 				var vLines=s.split('\n');
 
@@ -717,7 +724,7 @@ try{
 				s=_restore_strings(s);
 				s=_restore_remarks(s);
 
-				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;').replace(xReAND, '&amp;');
+				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;').replace(xReAND, '&amp;').replace(xReDL, '$').replace(xReBS, '\\');
 
 				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%;"><code>'
 					.replace(/%FONTNAME%/g, c_sFontName)
