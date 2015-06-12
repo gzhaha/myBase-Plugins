@@ -22,7 +22,7 @@ This plugin is provided by WJJ. You can use this plug to add pre-defined text to
 
 ## 3. SetFontSize.js (**Unofficial Plugin**)
 This plugin can be used to set the font size of current info item.  
-Please note, this plugin will change all the font size of the current info item and **do not have a reverse function**, meaning you **can not use** `crtl+z` to reverse back. Currently, the font size can be set between 5-40pt. You can find this function (**Set Font Size**) by right click in the HTML edit area.
+Please note, this plugin will change all the font size of the current info item and **do not have a reverse function**, meaning you **can not use** `crtl+z` to reverse back, but you can use "Revision History" to reverse back to the previous version. Currently, the font size can be set between 5-40pt. You can find this function (**Set Font Size**) by right click in the HTML edit area.
 
 ## 4. Markdown related plugins (**Unofficial Plugin**)
 > **Dependency:** The below two markdown related plugins use the interface provided by **marked.js**. To run these two plugins, you need first to download the **marked.js** from the project page: [https://github.com/chjj/marked](https://github.com/chjj/marked) and put to myBase \plugins folder.
