@@ -9,6 +9,15 @@
 //sShortcutKey=
 //sAuthor=wjjsoft
 
+/////////////////////////////////////////////////////////////////////
+// Extension scripts for myBase Desktop v7.x
+// Copyright 2015 Wjj Software. All rights Reserved.
+// Website: www.wjjsoft.com  Contact: info@wjjsoft.com
+/////////////////////////////////////////////////////////////////////
+// This code is property of Wjj Software (WJJSOFT). You may not use it
+// for any commercial purpose without preceding consent from authors.
+/////////////////////////////////////////////////////////////////////
+
 
 //11:34 6/10/2015
 //Plugin/Insert quick text:
