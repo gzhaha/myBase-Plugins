@@ -416,68 +416,80 @@ try{
 						
 			//2015.6.8 added for Pig Latin by gzhaha;
 			var sTags_PigLatin=
-			'ABS,ACOS,ARITY,ASIN,ATAN,AVG,BAGSIZE,BINSTORAGE,BLOOM,BUILDBLOOM,CBRT,CEIL'
-			+ ',CONCAT,COR,COS,COSH,COUNT,COUNT_STAR,COV,CONSTANTSIZE,CUBEDIMENSIONS,DIFF,DISTINCT,DOUBLEABS'
-			+ ',DOUBLEAVG,DOUBLEBASE,DOUBLEMAX,DOUBLEMIN,DOUBLEROUND,DOUBLESUM,EXP,FLOOR,FLOATABS,FLOATAVG'
-			+ ',FLOATMAX,FLOATMIN,FLOATROUND,FLOATSUM,GENERICINVOKER,INDEXOF,INTABS,INTAVG,INTMAX,INTMIN'
-			+ ',INTSUM,INVOKEFORDOUBLE,INVOKEFORFLOAT,INVOKEFORINT,INVOKEFORLONG,INVOKEFORSTRING,INVOKER'
-			+ ',ISEMPTY,JSONLOADER,JSONMETADATA,JSONSTORAGE,LAST_INDEX_OF,LCFIRST,LOG,LOG10,LOWER,LONGABS'
-			+ ',LONGAVG,LONGMAX,LONGMIN,LONGSUM,MAX,MIN,MAPSIZE,MONITOREDUDF,NONDETERMINISTIC,OUTPUTSCHEMA'
-			+ ',PIGSTORAGE,PIGSTREAMING,RANDOM,REGEX_EXTRACT,REGEX_EXTRACT_ALL,REPLACE,ROUND,SIN,SINH,SIZE'
-			+ ',SQRT,STRSPLIT,SUBSTRING,SUM,STRINGCONCAT,STRINGMAX,STRINGMIN,STRINGSIZE,TAN,TANH,TOBAG'
-			+ ',TOKENIZE,TOMAP,TOP,TOTUPLE,TRIM,TEXTLOADER,TUPLESIZE,UCFIRST,UPPER,UTF8STORAGECONVERTER'
-			;
+				'ABS,ACOS,ARITY,ASIN,ATAN,AVG,BAGSIZE,BINSTORAGE,BLOOM,BUILDBLOOM,CBRT,CEIL'
+				+ ',CONCAT,COR,COS,COSH,COUNT,COUNT_STAR,COV,CONSTANTSIZE,CUBEDIMENSIONS,DIFF,DISTINCT,DOUBLEABS'
+				+ ',DOUBLEAVG,DOUBLEBASE,DOUBLEMAX,DOUBLEMIN,DOUBLEROUND,DOUBLESUM,EXP,FLOOR,FLOATABS,FLOATAVG'
+				+ ',FLOATMAX,FLOATMIN,FLOATROUND,FLOATSUM,GENERICINVOKER,INDEXOF,INTABS,INTAVG,INTMAX,INTMIN'
+				+ ',INTSUM,INVOKEFORDOUBLE,INVOKEFORFLOAT,INVOKEFORINT,INVOKEFORLONG,INVOKEFORSTRING,INVOKER'
+				+ ',ISEMPTY,JSONLOADER,JSONMETADATA,JSONSTORAGE,LAST_INDEX_OF,LCFIRST,LOG,LOG10,LOWER,LONGABS'
+				+ ',LONGAVG,LONGMAX,LONGMIN,LONGSUM,MAX,MIN,MAPSIZE,MONITOREDUDF,NONDETERMINISTIC,OUTPUTSCHEMA'
+				+ ',PIGSTORAGE,PIGSTREAMING,RANDOM,REGEX_EXTRACT,REGEX_EXTRACT_ALL,REPLACE,ROUND,SIN,SINH,SIZE'
+				+ ',SQRT,STRSPLIT,SUBSTRING,SUM,STRINGCONCAT,STRINGMAX,STRINGMIN,STRINGSIZE,TAN,TANH,TOBAG'
+				+ ',TOKENIZE,TOMAP,TOP,TOTUPLE,TRIM,TEXTLOADER,TUPLESIZE,UCFIRST,UPPER,UTF8STORAGECONVERTER'
+				;
 			
 			var sTags_PigLatinKW=
-			'VOID,IMPORT,RETURNS,DEFINE,LOAD,FILTER,FOREACH,ORDER,CUBE,DISTINCT,COGROUP'
-			+ ',JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
-			+ ',PARTITION,GROUP,AND,OR,NOT,GENERATE,FLATTEN,ASC,DESC,IS,STREAM,THROUGH,STORE,MAPREDUCE'
-			+ ',SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
-			+ ',NEQ,MATCHES,TRUE,FALSE,DUMP'
-			;
+				'VOID,IMPORT,RETURNS,DEFINE,LOAD,FILTER,FOREACH,ORDER,CUBE,DISTINCT,COGROUP'
+				+ ',JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
+				+ ',PARTITION,GROUP,AND,OR,NOT,GENERATE,FLATTEN,ASC,DESC,IS,STREAM,THROUGH,STORE,MAPREDUCE'
+				+ ',SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
+				+ ',NEQ,MATCHES,TRUE,FALSE,DUMP'
+				;
 			
 			//2015.6.8 added for Bash by gzhaha;
 			var sTags_BASH=
-			'if,fi,then,elif,else,for,do,done,until,while,break,continue,case,function,return,in,eq,ne,ge,le'
-			;
+				'if,fi,then,elif,else,for,do,done,until,while,break,continue,case,function,return,in,eq,ne,ge,le'
+				;
 			
 			var sTags_BASHBI=
-			'alias,apropos,awk,basename,bash,bc,bg,builtin,bzip2,cal,cat,cd,cfdisk,chgrp,chmod,chown,chroot'
-			+',cksum,clear,cmp,comm,command,cp,cron,crontab,csplit,cut,date,dc,dd,ddrescue,declare,df'
-			+',diff,diff3,dig,dir,dircolors,dirname,dirs,du,echo,egrep,eject,enable,env,ethtool,eval'
-			+',exec,exit,expand,export,expr,false,fdformat,fdisk,fg,fgrep,file,find,fmt,fold,format'
-			+',free,fsck,ftp,gawk,getopts,grep,groups,gzip,hash,head,history,hostname,id,ifconfig'
-			+',import,install,join,kill,less,let,ln,local,locate,logname,logout,look,lpc,lpr,lprint'
-			+',lprintd,lprintq,lprm,ls,lsof,make,man,mkdir,mkfifo,mkisofs,mknod,more,mount,mtools'
-			+',mv,netstat,nice,nl,nohup,nslookup,open,op,passwd,paste,pathchk,ping,popd,pr,printcap'
-			+',printenv,printf,ps,pushd,pwd,quota,quotacheck,quotactl,ram,rcp,read,readonly,renice'
-			+',remsync,rm,rmdir,rsync,screen,scp,sdiff,sed,select,seq,set,sftp,shift,shopt,shutdown'
-			+',sleep,sort,source,split,ssh,strace,su,sudo,sum,symlink,sync,tail,tar,tee,test,time'
-			+',times,touch,top,traceroute,trap,tr,true,tsort,tty,type,ulimit,umask,umount,unalias'
-			+',uname,unexpand,uniq,units,unset,unshar,useradd,usermod,users,uuencode,uudecode,v,vdir'
-			+',vi,watch,wc,whereis,which,who,whoami,Wget,xargs,yes'
-			;
+				'alias,apropos,awk,basename,bash,bc,bg,builtin,bzip2,cal,cat,cd,cfdisk,chgrp,chmod,chown,chroot'
+				+',cksum,clear,cmp,comm,command,cp,cron,crontab,csplit,cut,date,dc,dd,ddrescue,declare,df'
+				+',diff,diff3,dig,dir,dircolors,dirname,dirs,du,echo,egrep,eject,enable,env,ethtool,eval'
+				+',exec,exit,expand,export,expr,false,fdformat,fdisk,fg,fgrep,file,find,fmt,fold,format'
+				+',free,fsck,ftp,gawk,getopts,grep,groups,gzip,hash,head,history,hostname,id,ifconfig'
+				+',import,install,join,kill,less,let,ln,local,locate,logname,logout,look,lpc,lpr,lprint'
+				+',lprintd,lprintq,lprm,ls,lsof,make,man,mkdir,mkfifo,mkisofs,mknod,more,mount,mtools'
+				+',mv,netstat,nice,nl,nohup,nslookup,open,op,passwd,paste,pathchk,ping,popd,pr,printcap'
+				+',printenv,printf,ps,pushd,pwd,quota,quotacheck,quotactl,ram,rcp,read,readonly,renice'
+				+',remsync,rm,rmdir,rsync,screen,scp,sdiff,sed,select,seq,set,sftp,shift,shopt,shutdown'
+				+',sleep,sort,source,split,ssh,strace,su,sudo,sum,symlink,sync,tail,tar,tee,test,time'
+				+',times,touch,top,traceroute,trap,tr,true,tsort,tty,type,ulimit,umask,umount,unalias'
+				+',uname,unexpand,uniq,units,unset,unshar,useradd,usermod,users,uuencode,uudecode,v,vdir'
+				+',vi,watch,wc,whereis,which,who,whoami,Wget,xargs,yes'
+				;
 			
 			//2015.6.11 added for myBase by gzhaha;
 			var sTags_myBase=
-			'about,alert,confirm,prompt,dropdown,textbox,beep,sleep,_gc'
-			+ ',platform.getOpenFileName,platform.getOpenFileNames,platform.getSaveFileName,platform.browseForFolder'
-			+ ',platform.getTempFile,platform.getTempPath,platform.getHomePath,platform.getCurrentPath,platform.deferDeleteFile'
-			+ ',platform.extractTextFromRtf,platform.extractTextFromHtml,platform.parseFile,platform.tokenizeText'
-			+ ',plugin.getAppWorkingDir,plugin.getAppExeFile,plugin.getPluginID,plugin.getScriptFile,plugin.getScriptTitle'
-			+ ',plugin.getShortcutFile,plugin.getLanguageFile,plugin.getPathToLangFiles,plugin.getDefRootContainer'
-			+ ',plugin.getDefNoteFn,plugin.refreshDocViews,plugin.refreshOutline,plugin.refreshLabelTree,plugin.refreshCalendar'
-			+ ',plugin.refreshOverview,plugin.getLocaleMsg,plugin.getDbCount,plugin.getDbIndex,plugin.getCurDbIndex'
-			+ ',plugin.getCurNavigationTab,plugin.getCurDocFile,plugin.getCurDocPath,plugin.getCurInfoItem,plugin.getCurLabelItem'
-			+ ',plugin.getSelectedInfoItems,plugin.getSelectedText,plugin.getTextContent,plugin.setTextContent'
-			+ ',plugin.replaceSelectedText,plugin.getQueryResults,plugin.runQuery,plugin.appendToResults'
-			+ ',plugin.setResultsPaneTitle,plugin.showResultsPane,plugin.initProgressRange,plugin.showProgressMsg'
-			+ ',plugin.ctrlProgressBar,plugin.destroyProgressBar,plugin.commitCurrentChanges,plugin.isContentEditable'
-			+ ',plugin.runDomScript,plugin.setDomDirty,plugin.setDomReadonly,plugin.getItemIDByPath,plugin.getPathByItemID'
-			+ ',localStorage.getItem,localStorage.setItem,localStorage.removeItem,localStorage.clear'
-			+ ',CNyfDb,CLocalFile,CLocalDir'
-			;
-			
+				'about,alert,confirm,prompt,dropdown,textbox,input,beep,sleep,_gc'
+
+				//+ ',platform.getOpenFileName,platform.getOpenFileNames,platform.getSaveFileName,platform.browseForFolder'
+				//+ ',platform.getTempFile,platform.getTempPath,platform.getHomePath,platform.getCurrentPath,platform.deferDeleteFile'
+				//+ ',platform.extractTextFromRtf,platform.extractTextFromHtml,platform.parseFile,platform.tokenizeText'
+				//+ ',plugin.getAppWorkingDir,plugin.getAppExeFile,plugin.getPluginID,plugin.getScriptFile,plugin.getScriptTitle'
+				//+ ',plugin.getShortcutFile,plugin.getLanguageFile,plugin.getPathToLangFiles,plugin.getDefRootContainer'
+				//+ ',plugin.getDefNoteFn,plugin.refreshDocViews,plugin.refreshOutline,plugin.refreshLabelTree,plugin.refreshCalendar'
+				//+ ',plugin.refreshOverview,plugin.getLocaleMsg,plugin.getDbCount,plugin.getDbIndex,plugin.getCurDbIndex'
+				//+ ',plugin.getCurNavigationTab,plugin.getCurDocFile,plugin.getCurDocPath,plugin.getCurInfoItem,plugin.getCurLabelItem'
+				//+ ',plugin.getSelectedInfoItems,plugin.getSelectedText,plugin.getTextContent,plugin.setTextContent'
+				//+ ',plugin.replaceSelectedText,plugin.getQueryResults,plugin.runQuery,plugin.appendToResults'
+				//+ ',plugin.setResultsPaneTitle,plugin.showResultsPane,plugin.initProgressRange,plugin.showProgressMsg'
+				//+ ',plugin.ctrlProgressBar,plugin.destroyProgressBar,plugin.commitCurrentChanges,plugin.isContentEditable'
+				//+ ',plugin.runDomScript,plugin.setDomDirty,plugin.setDomReadonly,plugin.getItemIDByPath,plugin.getPathByItemID'
+				//+ ',localStorage.getItem,localStorage.setItem,localStorage.removeItem,localStorage.clear'
+
+				//2015.6.12 @gzhaha :) Nice to have an item for mybase jsapi in the language list;
+				//Revised by wjj; 
+				//The API lists may vary in future releases, so RegExp patterns are recommended for better flexibility;
+				//It is somewhat easy to highlight the global objects/functions and classes by the hard-coded names, 
+				//however, it seemed hard to recognize member functions of objects created from the classes (eg. xNyf.isOpen(...);)
+
+				+ ',plugin\.\\w+' //or use ',plugin(?=\.)' for global objects only, without memeber functions highlighted;
+				+ ',platform\.\\w+'
+				+ ',localStorage\.\\w+'
+				+ ',CNyfDb,CDbItem,CLocalFile,CLocalDir,CByteArray'
+				+ ',CXmlDocument,CAppWord,CAppExcel,CAppOutlook'
+				;
+
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -732,7 +744,7 @@ try{
 					, 'java': 'Java'
 					, 'cs': 'C#'
 					, 'js': 'Javascript'
-					, 'jsmybase': 'Javascript with myBase'
+					, 'jsmybase': 'Javascript with myBase Plugin APIs'
 					, 'sql': 'T-SQL'
 					, 'php': 'PHP'
 					, 'go': 'Google GO'
