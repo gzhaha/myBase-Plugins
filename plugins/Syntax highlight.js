@@ -53,6 +53,9 @@
 //add: substitute for $ character, the issue is related to parse '$' in source code
 //add: substitute for the \ character, the issue is related to parse \\ in source code.
 
+//2015.6.14 by gzhaha
+//add: Pascal
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -494,6 +497,17 @@ try{
 				+ ',CXmlDocument,CAppWord,CAppExcel,CAppOutlook'
 				;
 
+			//2015.6.14 added for Pascal by gzhaha;
+			var sTags_Pascal=
+			'absolute,abstract,and,array,as,asm,assembler,at,automated,begin,case,cdecl,class,const,constructor,contains'
+			+ ',default,destructor,dispid,dispinterface,div,do,downto,dynamic,else,end,except,export,exports,external,far'
+			+ ',file,finalization,finally,for,forward,function,goto,if,implementation,implements,in,index,inherited'
+			+ ',initialization,inline,interface,is,label,library,message,mod,name,near,nil,nodefault,not,object,of,on,or'
+			+ ',out,overload,override,package,packed,pascal,private,procedure,program,property,protected,public,published'
+			+ ',raise,read,readonly,record,register,reintroduce,repeat,requires,resident,resourcestring,safecall,set,shl'
+			+ ',shr,stdcall,stored,string,then,threadvar,to,try,type,unit,until,uses,var,virtual,while,with,write,writeonly,xor'
+			;
+
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -764,6 +778,7 @@ try{
 					, 'delphi': 'Delphi'
 					, 'pigla': 'Pig Latin'
 					, 'bash': 'Bash'
+					, 'pascal': 'Pascal'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -903,6 +918,13 @@ try{
 							vRemLineTag=['#'];
 							sRemBlockStart='';
 							sRemBlockEnd='';
+							break;
+						case 'pascal':
+							vTags=[
+								{sTags: sTags_Pascal, sColor: c_sColorKeywords}
+							];
+							sRemBlockStart='(*';
+							sRemBlockEnd='*)';
 							break;
 					}
 
