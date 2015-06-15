@@ -59,25 +59,15 @@
 //2015.6.15 by gzhaha
 //add: support multi sets of symbols for block comment.
 
+//16:46 6/15/2015
+//updates: added the data structure {start: '', end: ''} to store pairs of block-level remark tags;
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
 
 var _trim=function(s){return (s||'').replace(/^\s+|\s+$/g, '');};
 var _trim_cr=function(s){return (s||'').replace(/\r+$/g, '');};
-
-var _html_encode=function(s)
-{
-	//http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
-	s=s.replace(/&/g,	'&amp;');
-	s=s.replace(/</g,	'&lt;');
-	s=s.replace(/>/g,	'&gt;');
-	s=s.replace(/\"/g,	'&quot;');
-	s=s.replace(/\'/g,	'&apos;');
-	s=s.replace(/  /g,	'&nbsp; ');
-	//and more ...
-	return s;
-};
 
 try{
 	var xNyf=new CNyfDb(-1);
@@ -331,11 +321,12 @@ try{
 				+ ',Wend,UInteger,ULong,UShort,Using,When,While,Widening,With,WithEvents,WriteOnly'
 				+ ',Xor,#Const,#Else,#ElseIf,#End,#If'
 				;
+
 			var sTags_VB_Unreserved=
 				'Ansi,Assembly,Auto,Binary,Compare,Custom,Explicit,IsFalse,IsTrue,Mid,Off'
 				+ ',Preserve,Strict,Text,Unicode,Until,#ExternalSource,#Region'
 				;
-			
+
 			//2015.6.6 added for Python by gzhaha;
 			//https://docs.python.org/2/library/functions.html
 			var sTags_Python=
@@ -348,14 +339,14 @@ try{
 				+ ',reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod'
 				+ ',str,sum,super,tuple,type,type,unichr,unicode,vars,xrange,zip,__import__'
 				;
-			
+
 			//2015.6.6 added for Python by gzhaha;
 			var sTags_Pythonkw=
 				'and,as,assert,break,class,continue,def,del,elif,else'
 				+ ',except,exec,finally,for,from,global,if,import,in,is'
 				+ ',lambda,not,or,pass,print,raise,return,try,while,with,yield'
 				;
-				
+
 			//2015.6.6 added for Perl by gzhaha;
 			//http://perldoc.perl.org/index-functions.html
 			var sTags_Perl=
@@ -379,13 +370,13 @@ try{
 				+ ',system,syswrite,tell,telldir,time,times,tr,truncate,uc,ucfirst,umask'
 				+ ',undef,unlink,unpack,unshift,utime,values,vec,wait,waitpid,warn,write'
 				;
-			
+
 			var sTags_Perlkw=
 				'bless,caller,continue,dbmclose,dbmopen,die,do,dump,else,elsif,eval,exit'
 				+ ',for,foreach,goto,if,import,last,local,my,next,no,our,package,redo,ref'
 				+ ',require,return,sub,tie,tied,unless,untie,until,use,wantarray,while'
 				;
-			
+
 			//2015.6.7 added for ActionScript by gzhaha;
 			//http://help.adobe.com/zh_CN/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7f9b.html
 			var sTags_ActionScript=
@@ -395,20 +386,20 @@ try{
 				+ ',throw,try,typeof,use,var,void,while,with,dynamic,each,final,get,include'
 				+ ',namespace,native,override,set,static'
 				;
-			
+
 			//2015.6.7 added for Ruby by gzhaha;
 			var sTags_Ruby=
 				'alias,and,BEGIN,begin,break,case,class,def,define_method,defined,do,each,else,elsif'
 				+ ',END,end,ensure,false,for,if,in,module,new,next,nil,not,or,raise,redo,rescue,retry,return'
 				+ ',self,super,then,throw,true,undef,unless,until,when,while,yield'
 				;
-			
+
 			var sTags_RubyBI=
 				'Array Bignum Binding Class Continuation Dir Exception FalseClass File::Stat File Fixnum Fload'
 				+',Hash Integer IO MatchData Method Module NilClass Numeric Object Proc Range Regexp String Struct::TMS Symbol'
 				+',ThreadGroup Thread Time TrueClass'
 				;
-			
+
 			//2015.6.8 added for Delphi by gzhaha;
 			var sTags_Delphi=
 				'abs,addr,and,ansichar,ansistring,array,as,asm,begin,boolean,byte,cardinal'
@@ -423,7 +414,7 @@ try{
 				+',threadvar,to,true,try,type,unit,until,uses,val,var,varirnt,while,widechar'
 				+',widestring,with,word,write,writeln,xor'
 				;
-						
+
 			//2015.6.8 added for Pig Latin by gzhaha;
 			var sTags_PigLatin=
 				'ABS,ACOS,ARITY,ASIN,ATAN,AVG,BAGSIZE,BINSTORAGE,BLOOM,BUILDBLOOM,CBRT,CEIL'
@@ -437,7 +428,7 @@ try{
 				+ ',SQRT,STRSPLIT,SUBSTRING,SUM,STRINGCONCAT,STRINGMAX,STRINGMIN,STRINGSIZE,TAN,TANH,TOBAG'
 				+ ',TOKENIZE,TOMAP,TOP,TOTUPLE,TRIM,TEXTLOADER,TUPLESIZE,UCFIRST,UPPER,UTF8STORAGECONVERTER'
 				;
-			
+
 			var sTags_PigLatinKW=
 				'VOID,IMPORT,RETURNS,DEFINE,LOAD,FILTER,FOREACH,ORDER,CUBE,DISTINCT,COGROUP'
 				+ ',JOIN,CROSS,UNION,SPLIT,INTO,IF,OTHERWISE,ALL,AS,BY,USING,INNER,OUTER,ONSCHEMA,PARALLEL'
@@ -445,12 +436,12 @@ try{
 				+ ',SHIP,CACHE,INPUT,OUTPUT,STDERROR,STDIN,STDOUT,LIMIT,SAMPLE,LEFT,RIGHT,FULL,EQ,GT,LT,GTE,LTE'
 				+ ',NEQ,MATCHES,TRUE,FALSE,DUMP'
 				;
-			
+
 			//2015.6.8 added for Bash by gzhaha;
 			var sTags_BASH=
 				'if,fi,then,elif,else,for,do,done,until,while,break,continue,case,function,return,in,eq,ne,ge,le'
 				;
-			
+
 			var sTags_BASHBI=
 				'alias,apropos,awk,basename,bash,bc,bg,builtin,bzip2,cal,cat,cd,cfdisk,chgrp,chmod,chown,chroot'
 				+',cksum,clear,cmp,comm,command,cp,cron,crontab,csplit,cut,date,dc,dd,ddrescue,declare,df'
@@ -467,7 +458,7 @@ try{
 				+',uname,unexpand,uniq,units,unset,unshar,useradd,usermod,users,uuencode,uudecode,v,vdir'
 				+',vi,watch,wc,whereis,which,who,whoami,Wget,xargs,yes'
 				;
-			
+
 			//2015.6.11 added for myBase by gzhaha;
 			var sTags_myBase=
 				'about,alert,confirm,prompt,dropdown,textbox,input,beep,sleep,_gc'
@@ -502,14 +493,14 @@ try{
 
 			//2015.6.14 added for Pascal by gzhaha;
 			var sTags_Pascal=
-			'absolute,abstract,and,array,as,asm,assembler,at,automated,begin,case,cdecl,class,const,constructor,contains'
-			+ ',default,destructor,dispid,dispinterface,div,do,downto,dynamic,else,end,except,export,exports,external,far'
-			+ ',file,finalization,finally,for,forward,function,goto,if,implementation,implements,in,index,inherited'
-			+ ',initialization,inline,interface,is,label,library,message,mod,name,near,nil,nodefault,not,object,of,on,or'
-			+ ',out,overload,override,package,packed,pascal,private,procedure,program,property,protected,public,published'
-			+ ',raise,read,readonly,record,register,reintroduce,repeat,requires,resident,resourcestring,safecall,set,shl'
-			+ ',shr,stdcall,stored,string,then,threadvar,to,try,type,unit,until,uses,var,virtual,while,with,write,writeonly,xor'
-			;
+				'absolute,abstract,and,array,as,asm,assembler,at,automated,begin,case,cdecl,class,const,constructor,contains'
+				+ ',default,destructor,dispid,dispinterface,div,do,downto,dynamic,else,end,except,export,exports,external,far'
+				+ ',file,finalization,finally,for,forward,function,goto,if,implementation,implements,in,index,inherited'
+				+ ',initialization,inline,interface,is,label,library,message,mod,name,near,nil,nodefault,not,object,of,on,or'
+				+ ',out,overload,override,package,packed,pascal,private,procedure,program,property,protected,public,published'
+				+ ',raise,read,readonly,record,register,reintroduce,repeat,requires,resident,resourcestring,safecall,set,shl'
+				+ ',shr,stdcall,stored,string,then,threadvar,to,try,type,unit,until,uses,var,virtual,while,with,write,writeonly,xor'
+				;
 
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
@@ -522,20 +513,22 @@ try{
 
 			var _ref_tag=function(){return sRefTag1+(nRefID++)+sRefTag2;};
 
-			var _parse_remark_blocks=function(sSrc, sRemBlockStart, sRemBlockEnd){
+			var _parse_remark_blocks=function(sSrc, vRemBlockTag){
+
 				//To substitute internal tags for /*...*/ remark blocks;
-				if(sRemBlockStart && sRemBlockEnd){
+				if(vRemBlockTag.constructor === Array){
+
 					//2015.6.15 Pascal has three ways to perform comment, //XXXX, (*XXXX*) and {XXXX};
 					//added codes to deal with multiple set of the symbols for block comment;
-					for (i in sRemBlockStart){
-						sRemBlockStartSub = sRemBlockStart[i]
-						sRemBlockEndSub = sRemBlockEnd[i];
+
+					for(var i in vRemBlockTag){
+						var sRemBlockStart=vRemBlockTag[i].start, sRemBlockEnd=vRemBlockTag[i].end;
 						var s2=sSrc; sSrc='';
 						while(s2){
-							var p1=s2.indexOf(sRemBlockStartSub);
+							var p1=s2.indexOf(sRemBlockStart);
 							if(p1>=0){
-								var p2=s2.indexOf(sRemBlockEndSub, p1+sRemBlockStartSub.length);
-								if(p2<0) p2=s2.length; else p2+=sRemBlockEndSub.length;
+								var p2=s2.indexOf(sRemBlockEnd, p1+sRemBlockStart.length);
+								if(p2<0) p2=s2.length; else p2+=sRemBlockEnd.length;
 								//if(p2>0)
 								{
 									var left=s2.substr(0, p1), sRem=s2.substring(p1, p2), right=s2.substr(p2);
@@ -549,8 +542,9 @@ try{
 								s2='';
 							}
 						}
+					}
 				}
-				}
+
 				return sSrc;
 			};
 
@@ -561,13 +555,14 @@ try{
 						//2015.6.7 efforts on dealing with # symbol within quotation marks: '...#...' or "...#..."
 						//2015.6.12 no need for this changes now.
 						//if (sLine.search(/\".*\#.*\"/) < 0 && sLine.search(/\'.*\#.*\'/) <0){
-							
-						var xRE=new RegExp(sRemLineTag+'(.*)$', '');
-						sLine=sLine.replace(xRE, function(w){
-							var sTag=_ref_tag();
-							vRem[vRem.length]={sTag: sTag, sVal: w};
-							return sTag;
-						});
+
+							var xRE=new RegExp(sRemLineTag+'(.*)$', '');
+							sLine=sLine.replace(xRE, function(w){
+								var sTag=_ref_tag();
+								vRem[vRem.length]={sTag: sTag, sVal: w};
+								return sTag;
+							});
+
 						//}
 					}
 					return sLine;
@@ -623,7 +618,6 @@ try{
 				//restore String contants;
 				for(var j=vStr.length-1; j>=0; --j){
 					var sTag=vStr[j].sTag, sVal=vStr[j].sVal;
-					//var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+_html_encode(sVal)+'</span>';
 					var r='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorStrings)+sVal+'</span>';
 					s=s.replace(sTag, r);
 				}
@@ -637,7 +631,6 @@ try{
 					var v=sVal.split('\n'), r='';
 					for(var i in v){
 						if(r) r+='\n';
-						//r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+_html_encode(v[i])+'</span>';
 						r+='<span style="color: %COLOR%">'.replace(/%COLOR%/g, c_sColorRemarks)+v[i]+'</span>';
 					}
 					s=s.replace(sTag, r);
@@ -645,14 +638,14 @@ try{
 				return s;
 			};
 
-			var _syntax_cpplike=function(s, vTags, sRemBlockStart, sRemBlockEnd, vRemLineTag){
+			var _syntax_cpplike=function(s, vTags, vRemBlockTag, vRemLineTag){
 
 				s=s.replace(/\r\n/g, '\n')
 					.replace(/\r/g, '\n')
 					//.replace(/\\/g, '\\\\')
 					;
 
-				s=_parse_remark_blocks(s, sRemBlockStart, sRemBlockEnd);
+				s=_parse_remark_blocks(s, vRemBlockTag);
 
 				var _highlight_numbers=function(sLine, sColor){
 					if(sLine){
@@ -807,7 +800,11 @@ try{
 
 					var sID=vIDs[iSel];
 
-					var vTags=[], sRemBlockStart=['/*'], sRemBlockEnd=['*/'], vRemLineTag=['//'], sGenre='cpp';
+					//2015.6.15 For more info about comments in programming languages;
+					//http://www.gavilan.edu/csis/languages/comments.html
+					//http://stackoverflow.com/questions/3842443/comments-in-pascal
+
+					var vTags=[], vRemBlockTag=[{start: '/*', end: '*/'}], vRemLineTag=['//'], sGenre='cpp';
 					switch(sID){
 						case 'cpp':
 							vTags=[{sTags: sTags_Cpp, sColor: c_sColorKeywords}];
@@ -857,8 +854,7 @@ try{
 							break;
 						case 'gnur':
 							vTags=[{sTags: sTags_R, sColor: c_sColorKeywords}];
-							sRemBlockStart='';
-							sRemBlockEnd='';
+							vRemBlockTag=[];
 							vRemLineTag=['#'];
 							break;
 						case 'go':
@@ -869,8 +865,7 @@ try{
 								{sTags: sTags_VB_Reserved, sColor: c_sColorKeywords, bNoCase: true}
 								, {sTags: sTags_VB_Unreserved, sColor: c_sColorReservedTags1, bNoCase: true}
 							];
-							sRemBlockStart='';
-							sRemBlockEnd='';
+							vRemBlockTag=[];
 							vRemLineTag=['REM', '\''];
 							break;
 						case 'py':
@@ -878,18 +873,16 @@ try{
 								{sTags: sTags_Pythonkw, sColor: c_sColorKeywords}
 								, {sTags: sTags_Python, sColor: c_sColorReservedTags3}
 							];
+							vRemBlockTag=[{start: "'''", end: "'''"}];
 							vRemLineTag=['#'];
-							sRemBlockStart="'''";
-							sRemBlockEnd="'''";
 							break;
 						case 'pl':
 							vTags=[
 								{sTags: sTags_Perlkw, sColor: c_sColorKeywords}
 								, {sTags: sTags_Perl, sColor: c_sColorReservedTags3}
 							];
+							vRemBlockTag=[{start: '=pod', end: '=cut'}];
 							vRemLineTag=['#'];
-							sRemBlockStart="=pod";
-							sRemBlockEnd="=cut";
 							break;
 						case 'acsc':
 							vTags=[
@@ -901,16 +894,8 @@ try{
 								{sTags: sTags_Ruby, sColor: c_sColorKeywords}
 								, {sTags: sTags_RubyBI, sColor: c_sColorReservedTags3}
 							];
+							vRemBlockTag=[{start: '=begin', end: '=end'}];
 							vRemLineTag=['#'];
-							sRemBlockStart="=begin";
-							sRemBlockEnd="=end";
-							break;
-						case 'delphi':
-							vTags=[
-								{sTags: sTags_Delphi, sColor: c_sColorKeywords}
-							];
-							sRemBlockStart="{";
-							sRemBlockEnd="}";
 							break;
 						case 'pigla':
 							vTags=[
@@ -924,9 +909,15 @@ try{
 								{sTags: sTags_BASH, sColor: c_sColorKeywords}
 								, {sTags: sTags_BASHBI, sColor: c_sColorReservedTags3}
 							];
+							vRemBlockTag=[];
 							vRemLineTag=['#'];
-							sRemBlockStart='';
-							sRemBlockEnd='';
+							break;
+						case 'delphi':
+							vTags=[
+								{sTags: sTags_Delphi, sColor: c_sColorKeywords}
+							];
+							//vRemBlockTag=[{start: '{', end: '}'}];
+							vRemBlockTag=[{start: '(*', end: '*)'}, {start: '{', end: '}'}];
 							break;
 						case 'pascal':
 							vTags=[
@@ -934,15 +925,14 @@ try{
 							];
 							//2015.6.15 Pascal has three ways to perform comment, //XXXX, (*XXXX*) and {XXXX};
 							//Below two lines using array to define two sets of the start and end symbols;
-							sRemBlockStart=['(*','{'];
-							sRemBlockEnd=['*)','}'];
+							vRemBlockTag=[{start: '(*', end: '*)'}, {start: '{', end: '}'}];
 							break;
 					}
 
 					var sHtml;
 					{
 						if(sGenre=='cpp'){
-							sHtml=_syntax_cpplike(sSrc, vTags, sRemBlockStart, sRemBlockEnd, vRemLineTag);
+							sHtml=_syntax_cpplike(sSrc, vTags, vRemBlockTag, vRemLineTag);
 						}else if(sGenre=='html'){
 							//todo ......
 						}
