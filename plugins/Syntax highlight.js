@@ -53,6 +53,12 @@
 //add: substitute for $ character, the issue is related to parse '$' in source code
 //add: substitute for the \ character, the issue is related to parse \\ in source code.
 
+//2015.6.14 by gzhaha
+//add: Pascal
+
+//2015.6.15 by gzhaha
+//add: support multi sets of symbols for block comment.
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -494,6 +500,17 @@ try{
 				+ ',CXmlDocument,CAppWord,CAppExcel,CAppOutlook'
 				;
 
+			//2015.6.14 added for Pascal by gzhaha;
+			var sTags_Pascal=
+			'absolute,abstract,and,array,as,asm,assembler,at,automated,begin,case,cdecl,class,const,constructor,contains'
+			+ ',default,destructor,dispid,dispinterface,div,do,downto,dynamic,else,end,except,export,exports,external,far'
+			+ ',file,finalization,finally,for,forward,function,goto,if,implementation,implements,in,index,inherited'
+			+ ',initialization,inline,interface,is,label,library,message,mod,name,near,nil,nodefault,not,object,of,on,or'
+			+ ',out,overload,override,package,packed,pascal,private,procedure,program,property,protected,public,published'
+			+ ',raise,read,readonly,record,register,reintroduce,repeat,requires,resident,resourcestring,safecall,set,shl'
+			+ ',shr,stdcall,stored,string,then,threadvar,to,try,type,unit,until,uses,var,virtual,while,with,write,writeonly,xor'
+			;
+
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -508,25 +525,31 @@ try{
 			var _parse_remark_blocks=function(sSrc, sRemBlockStart, sRemBlockEnd){
 				//To substitute internal tags for /*...*/ remark blocks;
 				if(sRemBlockStart && sRemBlockEnd){
-					var s2=sSrc; sSrc='';
-					while(s2){
-						var p1=s2.indexOf(sRemBlockStart);
-						if(p1>=0){
-							var p2=s2.indexOf(sRemBlockEnd, p1+sRemBlockStart.length);
-							if(p2<0) p2=s2.length; else p2+=sRemBlockEnd.length;
-							//if(p2>0)
-							{
-								var left=s2.substr(0, p1), sRem=s2.substring(p1, p2), right=s2.substr(p2);
-								var sTag=_ref_tag();
-								sSrc+=(left+sTag);
-								s2=right;
-								vRem[vRem.length]={sTag: sTag, sVal: sRem};
+					//2015.6.15 Pascal has three ways to perform comment, //XXXX, (*XXXX*) and {XXXX};
+					//added codes to deal with multiple set of the symbols for block comment;
+					for (i in sRemBlockStart){
+						sRemBlockStartSub = sRemBlockStart[i]
+						sRemBlockEndSub = sRemBlockEnd[i];
+						var s2=sSrc; sSrc='';
+						while(s2){
+							var p1=s2.indexOf(sRemBlockStartSub);
+							if(p1>=0){
+								var p2=s2.indexOf(sRemBlockEndSub, p1+sRemBlockStartSub.length);
+								if(p2<0) p2=s2.length; else p2+=sRemBlockEndSub.length;
+								//if(p2>0)
+								{
+									var left=s2.substr(0, p1), sRem=s2.substring(p1, p2), right=s2.substr(p2);
+									var sTag=_ref_tag();
+									sSrc+=(left+sTag);
+									s2=right;
+									vRem[vRem.length]={sTag: sTag, sVal: sRem};
+								}
+							}else{
+								sSrc+=s2;
+								s2='';
 							}
-						}else{
-							sSrc+=s2;
-							s2='';
 						}
-					}
+				}
 				}
 				return sSrc;
 			};
@@ -764,6 +787,7 @@ try{
 					, 'delphi': 'Delphi'
 					, 'pigla': 'Pig Latin'
 					, 'bash': 'Bash'
+					, 'pascal': 'Pascal'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -783,7 +807,7 @@ try{
 
 					var sID=vIDs[iSel];
 
-					var vTags=[], sRemBlockStart='/*', sRemBlockEnd='*/', vRemLineTag=['//'], sGenre='cpp';
+					var vTags=[], sRemBlockStart=['/*'], sRemBlockEnd=['*/'], vRemLineTag=['//'], sGenre='cpp';
 					switch(sID){
 						case 'cpp':
 							vTags=[{sTags: sTags_Cpp, sColor: c_sColorKeywords}];
@@ -903,6 +927,15 @@ try{
 							vRemLineTag=['#'];
 							sRemBlockStart='';
 							sRemBlockEnd='';
+							break;
+						case 'pascal':
+							vTags=[
+								{sTags: sTags_Pascal, sColor: c_sColorKeywords}
+							];
+							//2015.6.15 Pascal has three ways to perform comment, //XXXX, (*XXXX*) and {XXXX};
+							//Below two lines using array to define two sets of the start and end symbols;
+							sRemBlockStart=['(*','{'];
+							sRemBlockEnd=['*)','}'];
 							break;
 					}
 
