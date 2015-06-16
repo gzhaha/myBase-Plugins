@@ -62,6 +62,9 @@
 //16:46 6/15/2015
 //updates: added the data structure {start: '', end: ''} to store pairs of block-level remark tags;
 
+//18:28 6/16/2015
+//support of objc & RegExp for reversed tags;
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -135,10 +138,10 @@ try{
 				;
 
 			var sTags_Qt=
-				+ 'qint8,qint16,qint32,qint64,qlonglong,qptrdiff,qreal,quint8,quint16,quint32,quint64,quintptr,qulonglong,uchar,uint,ulong,ushort'
-				+ ', QT_\\w\+,Q_\\w\+' //global Macros
-				+ ',q[A-Z]\\w\+,qgetenv,qputenv,qrand,qsrand,qtTrId' //gloabl Functions
-				+ ',Q\\w\+' //Qt widgets/classes
+				+ 'qint8|qint16|qint32|qint64|qlonglong|qptrdiff|qreal|quint8|quint16|quint32|quint64|quintptr|qulonglong|uchar|uint|ulong|ushort'
+				+ '|QT_\\w\+|Q_\\w\+' //global Macros
+				+ '|q[A-Z]\\w\+|qgetenv|qputenv|qrand|qsrand|qtTrId' //gloabl Functions
+				+ '|Q\\w\+' //Qt widgets/classes
 				;
 
 			var sTags_Java=
@@ -461,34 +464,34 @@ try{
 
 			//2015.6.11 added for myBase by gzhaha;
 			var sTags_myBase=
-				'about,alert,confirm,prompt,dropdown,textbox,input,beep,sleep,_gc'
+				'about|alert|confirm|prompt|dropdown|textbox|input|beep|sleep|_gc'
 
-				//+ ',platform.getOpenFileName,platform.getOpenFileNames,platform.getSaveFileName,platform.browseForFolder'
-				//+ ',platform.getTempFile,platform.getTempPath,platform.getHomePath,platform.getCurrentPath,platform.deferDeleteFile'
-				//+ ',platform.extractTextFromRtf,platform.extractTextFromHtml,platform.parseFile,platform.tokenizeText'
-				//+ ',plugin.getAppWorkingDir,plugin.getAppExeFile,plugin.getPluginID,plugin.getScriptFile,plugin.getScriptTitle'
-				//+ ',plugin.getShortcutFile,plugin.getLanguageFile,plugin.getPathToLangFiles,plugin.getDefRootContainer'
-				//+ ',plugin.getDefNoteFn,plugin.refreshDocViews,plugin.refreshOutline,plugin.refreshLabelTree,plugin.refreshCalendar'
-				//+ ',plugin.refreshOverview,plugin.getLocaleMsg,plugin.getDbCount,plugin.getDbIndex,plugin.getCurDbIndex'
-				//+ ',plugin.getCurNavigationTab,plugin.getCurDocFile,plugin.getCurDocPath,plugin.getCurInfoItem,plugin.getCurLabelItem'
-				//+ ',plugin.getSelectedInfoItems,plugin.getSelectedText,plugin.getTextContent,plugin.setTextContent'
-				//+ ',plugin.replaceSelectedText,plugin.getQueryResults,plugin.runQuery,plugin.appendToResults'
-				//+ ',plugin.setResultsPaneTitle,plugin.showResultsPane,plugin.initProgressRange,plugin.showProgressMsg'
-				//+ ',plugin.ctrlProgressBar,plugin.destroyProgressBar,plugin.commitCurrentChanges,plugin.isContentEditable'
-				//+ ',plugin.runDomScript,plugin.setDomDirty,plugin.setDomReadonly,plugin.getItemIDByPath,plugin.getPathByItemID'
-				//+ ',localStorage.getItem,localStorage.setItem,localStorage.removeItem,localStorage.clear'
+				//+ '|platform.getOpenFileName|platform.getOpenFileNames|platform.getSaveFileName|platform.browseForFolder'
+				//+ '|platform.getTempFile|platform.getTempPath|platform.getHomePath|platform.getCurrentPath|platform.deferDeleteFile'
+				//+ '|platform.extractTextFromRtf|platform.extractTextFromHtml|platform.parseFile|platform.tokenizeText'
+				//+ '|plugin.getAppWorkingDir|plugin.getAppExeFile|plugin.getPluginID|plugin.getScriptFile|plugin.getScriptTitle'
+				//+ '|plugin.getShortcutFile|plugin.getLanguageFile|plugin.getPathToLangFiles|plugin.getDefRootContainer'
+				//+ '|plugin.getDefNoteFn|plugin.refreshDocViews|plugin.refreshOutline|plugin.refreshLabelTree|plugin.refreshCalendar'
+				//+ '|plugin.refreshOverview|plugin.getLocaleMsg|plugin.getDbCount|plugin.getDbIndex|plugin.getCurDbIndex'
+				//+ '|plugin.getCurNavigationTab|plugin.getCurDocFile|plugin.getCurDocPath|plugin.getCurInfoItem|plugin.getCurLabelItem'
+				//+ '|plugin.getSelectedInfoItems|plugin.getSelectedText|plugin.getTextContent|plugin.setTextContent'
+				//+ '|plugin.replaceSelectedText|plugin.getQueryResults|plugin.runQuery|plugin.appendToResults'
+				//+ '|plugin.setResultsPaneTitle|plugin.showResultsPane|plugin.initProgressRange|plugin.showProgressMsg'
+				//+ '|plugin.ctrlProgressBar|plugin.destroyProgressBar|plugin.commitCurrentChanges|plugin.isContentEditable'
+				//+ '|plugin.runDomScript|plugin.setDomDirty|plugin.setDomReadonly|plugin.getItemIDByPath|plugin.getPathByItemID'
+				//+ '|localStorage.getItem|localStorage.setItem|localStorage.removeItem|localStorage.clear'
 
 				//2015.6.12 @gzhaha :) Nice to have an item for mybase jsapi in the language list;
 				//Revised by wjj; 
-				//The API lists may vary in future releases, so RegExp patterns are recommended for better flexibility;
-				//It is somewhat easy to highlight the global objects/functions and classes by the hard-coded names, 
-				//however, it seemed hard to recognize member functions of objects created from the classes (eg. xNyf.isOpen(...);)
+				//The API lists may vary in future releases; so RegExp patterns are recommended for better flexibility;
+				//It is somewhat easy to highlight the global objects/functions and classes by the hard-coded names; 
+				//however; it seemed hard to recognize member functions of objects created from the classes (eg. xNyf.isOpen(...);)
 
-				+ ',plugin\.\\w+' //or use ',plugin(?=\.)' for global objects only, without memeber functions highlighted;
-				+ ',platform\.\\w+'
-				+ ',localStorage\.\\w+'
-				+ ',CNyfDb,CDbItem,CLocalFile,CLocalDir,CByteArray'
-				+ ',CXmlDocument,CAppWord,CAppExcel,CAppOutlook'
+				+ '|plugin\.\\w+' //or use '|plugin(?=\.)' for global objects only; without memeber functions highlighted;
+				+ '|platform\.\\w+'
+				+ '|localStorage\.\\w+'
+				+ '|CNyfDb|CDbItem|CLocalFile|CLocalDir|CByteArray'
+				+ '|CXmlDocument|CAppWord|CAppExcel|CAppOutlook'
 				;
 
 			//2015.6.14 added for Pascal by gzhaha;
@@ -500,6 +503,22 @@ try{
 				+ ',out,overload,override,package,packed,pascal,private,procedure,program,property,protected,public,published'
 				+ ',raise,read,readonly,record,register,reintroduce,repeat,requires,resident,resourcestring,safecall,set,shl'
 				+ ',shr,stdcall,stored,string,then,threadvar,to,try,type,unit,until,uses,var,virtual,while,with,write,writeonly,xor'
+				;
+
+			//2015.6.16 added for Objective-C by wjj;
+			//http://www.binpress.com/tutorial/objective-c-reserved-keywords/43
+			//http://www.learn-cocos2d.com/2011/10/complete-list-objectivec-20-compiler-directives/
+			var sTags_ObjC=
+				'auto,break,case,char,const,continue,default,do,double,else,enum,extern,float,for,goto,if,inline,int,long,register'
+				+ ',restrict,return,short,signed,sizeof,static,struct,switch,typedef,union,unsinged,void,volatile,while,__Bool,__Complex'
+				+ ',BOOL,Class,bycopy,byref,id,IMP,in,inout,nil,NO,NULL,oneway,out,Protocol,SEL,self,super,YES'
+				+ ',@interface,@end,@implementation,@protocol,@class,@public,@protected,@private,@property,@try,@throw,@catch,@finally,@synthesize,@dynamic,@selector,atomic,nonatomic,retain'
+				+ ',@defs,@required,@optional,@end,@package,@end,@synchronized,@autoreleasepool,@selector,@encode,@compatibility_alias'
+				;
+
+			//https://developer.apple.com/library/prerelease/ios/documentation/Cocoa/Reference/Foundation/ObjC_classic/index.html
+			var sTags_ObjC_Cocoa=
+				'NS[A-Z][a-zA-Z]{2,64}'
 				;
 
 			//Array objects to save strings/remarks substituted with internal tags;
@@ -666,8 +685,10 @@ try{
 					return sLine;
 				};
 
-				var _highlight_tags=function(sLine, sTags, sColor, bNoCase){
-					sTags=sTags.replace(/,/g, '|').replace(/\s/g, ''); //make into RegExp pattern;
+				var _highlight_tags=function(sLine, sTags, bRegExp, bNoCase, sColor){
+
+					if(!bRegExp) sTags=sTags.replace(/,/g, '|').replace(/\s/g, ''); //make into RegExp pattern;
+					
 					if(sLine && sTags){
 
 						var sFmt='<span style="color: %COLOR%;">'.replace(/%COLOR%/g, sColor);
@@ -724,8 +745,8 @@ try{
 
 					for(var j in vTags){
 						var d=vTags[j];
-						var sTags=d.sTags, sColor=d.sColor, bNoCase=d.bNoCase;
-						sLine=_highlight_tags(sLine, sTags, sColor, bNoCase);
+						var sTags=d.sTags, sColor=d.sColor, bNoCase=d.bNoCase, bRegExp=d.bRegExp;
+						sLine=_highlight_tags(sLine, sTags, bRegExp, bNoCase, sColor);
 					}
 
 					vLines[k]=sLine;
@@ -781,6 +802,7 @@ try{
 					, 'pigla': 'Pig Latin'
 					, 'bash': 'Bash'
 					, 'pascal': 'Pascal'
+					, 'objc': 'Objective-C'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -819,7 +841,7 @@ try{
 							vTags=[
 								{sTags: sTags_Cpp, sColor: c_sColorKeywords}
 								, {sTags: sTags_Stl, sColor: c_sColorReservedTags1}
-								, {sTags: sTags_Qt, sColor: c_sColorReservedTags5, bNoCase: false}
+								, {sTags: sTags_Qt, sColor: c_sColorReservedTags5, bNoCase: false, bRegExp: true}
 							];
 							break;
 						case 'java':
@@ -840,9 +862,9 @@ try{
 							vTags=[
 								{sTags: sTags_JS, sColor: c_sColorKeywords}
 								, {sTags: sTags_JSConst, sColor: c_sColorNumbers}
-								, {sTags: sTags_JSDom, sColor: c_sColorReservedTags1}
-								, {sTags: sTags_JSEvent, sColor: c_sColorReservedTags3}
-								, {sTags: sTags_myBase, sColor: c_sColorReservedTags6}
+								//, {sTags: sTags_JSDom, sColor: c_sColorReservedTags1}
+								//, {sTags: sTags_JSEvent, sColor: c_sColorReservedTags3}
+								, {sTags: sTags_myBase, sColor: c_sColorReservedTags6, bRegExp: true}
 							];
 							break;
 						case 'sql':
@@ -926,6 +948,12 @@ try{
 							//2015.6.15 Pascal has three ways to perform comment, //XXXX, (*XXXX*) and {XXXX};
 							//Below two lines using array to define two sets of the start and end symbols;
 							vRemBlockTag=[{start: '(*', end: '*)'}, {start: '{', end: '}'}];
+							break;
+						case 'objc':
+							vTags=[
+								{sTags: sTags_ObjC, sColor: c_sColorKeywords}
+								, {sTags: sTags_ObjC_Cocoa, sColor: c_sColorReservedTags3, bRegExp: true}
+							];
 							break;
 					}
 
