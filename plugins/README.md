@@ -6,7 +6,7 @@ This folder contains the plugins for myBase 7.x.
  
 **Usage:**  
 1. Closed the software  
-2. Copy the plugin .js file to \plugins folder.  
+2. Copy the plugin .js file to .\plugins sub folder.  
 3. Run the software again.  
 4. Based on the setting of the plugins, you can find the new functions from different menus.  
 5. More details can be found in myBase website: [http://www.wjjsoft.com/mybase_jsapi.html#install](http://www.wjjsoft.com/mybase_jsapi.html#install)
@@ -43,4 +43,5 @@ To access this function, you can highlight any math expression from the info ite
 
 **Example math expression:** `cos(20.9 deg) * 0.9342 / (3+9) * (2.3+5.87) / 11`  
 
-
+## 7. Save2QuickText.js (**Unofficial Plugin**)##
+This plugin can be used to save selected text to Quick text (*.q.txt) file and normal text (txt) file. You can access to this function by selecting the content and via right click menu -> Text Utilities -> Save to Quick Text.
