@@ -763,7 +763,10 @@ try{
 
 				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;').replace(xReAND, '&amp;').replace(xReDL, '$').replace(xReBS, '\\');
 
-				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%;"><code>'
+				//2015.6.16 "word-wrap: normal" for source code;
+				//http://www.w3schools.com/cssref/pr_text_white-space.asp
+				//http://www.w3schools.com/cssref/css3_pr_word-wrap.asp
+				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%; word-wrap: normal"><code>'
 					.replace(/%FONTNAME%/g, c_sFontName)
 					.replace(/%FONTSIZE%/g, c_sFontSize)
 					+ s
