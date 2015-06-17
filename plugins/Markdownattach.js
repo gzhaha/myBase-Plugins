@@ -42,7 +42,7 @@ try{
 		plugin.setTextContent(-1, html, true);
 		
 		//formats(table,code,blockquote)
-		var sCode='\n'+'var x = document.createElement("STYLE"); var t = document.createTextNode("body, table{font-family: 微软雅黑; font-size: 18pt}\\ntable {border-collapse:collapse;border:solid black;border-width:2px 0 2px 1px;}\\nth, td {border:solid black;border-width:2px 1px 1px 0;padding:1px;}\\nth {background-color:#DDD}\\ntable tr:nth-child(2n) {background-color: #f8f8f8;}\\nblockquote{border-left: 6px solid #DDD; color:#777}\\ncode {background-color:#EEE;border-radius: 3px; padding: 3px 5px 0px 5px;border: 1px solid #D6D6D6;color: #D14;}\\np{font-weight:normal}"); x.appendChild(t); document.head.appendChild(x);';
+		var sCode='\n'+'var x = document.createElement("STYLE"); var t = document.createTextNode("body, table{font-family: Arial; font-size: 18pt}\\ntable {border-collapse:collapse;border:solid black;border-width:2px 0 2px 1px;}\\nth, td {border:solid black;border-width:2px 1px 1px 0;padding:1px;}\\nth {background-color:#DDD}\\ntable tr:nth-child(2n) {background-color: #f8f8f8;}\\nblockquote{border-left: 6px solid #DDD; color:#777}\\ncode {background-color:#EEE;border-radius: 3px; padding: 3px 5px 0px 5px;border: 1px solid #D6D6D6;color: #D14;}\\np{font-weight:normal}"); x.appendChild(t); document.head.appendChild(x);';
 		plugin.runDomScript(-1, sCode);
 		plugin.setDomDirty(-1, true);
 				
