@@ -398,9 +398,9 @@ try{
 				;
 
 			var sTags_RubyBI=
-				'Array Bignum Binding Class Continuation Dir Exception FalseClass File::Stat File Fixnum Fload'
-				+',Hash Integer IO MatchData Method Module NilClass Numeric Object Proc Range Regexp String Struct::TMS Symbol'
-				+',ThreadGroup Thread Time TrueClass'
+				'Array,Bignum,Binding,Class,Continuation,Dir,Exception,FalseClass,File::Stat,File,Fixnum,Fload'
+				+',Hash,Integer,IO,MatchData,Method,Module,NilClass,Numeric,Object,Proc,Range,Regexp,String,Struct::TMS,Symbol'
+				+',ThreadGroup,Thread,Time,TrueClass'
 				;
 
 			//2015.6.8 added for Delphi by gzhaha;
