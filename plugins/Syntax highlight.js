@@ -65,6 +65,9 @@
 //18:28 6/16/2015
 //support of objc & RegExp for reversed tags;
 
+//12:00 6/18/2015
+//added Apple Swift;
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -521,6 +524,31 @@ try{
 				'NS[A-Z][a-zA-Z]{2,64}'
 				;
 
+			//2015.6.18 added for Swift by wjj;
+			https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html
+			var sTags_Swift=
+				'class,deinit,enum,extension,func,import,init,internal,let,operator,private,protocol,public,static,struct,subscript,typealias,var'
+				+ ',break,case,continue,default,do,else,fallthrough,for,if,in,return,switch,where,while'
+				+ ',as,dynamicType,false,is,nil,self,Self,super,true,__COLUMN__,__FILE__,__FUNCTION__,__LINE__'
+				+ ',associativity,convenience,dynamic,didSet,final,get,infix,inout,lazy,left,mutating,none,nonmutating,optional,override,postfix,precedence,prefix,Protocol,required,right,set,Type,unowned,weak,willSet'
+				;
+
+			//https://developer.apple.com/library/ios/navigation/
+			var sTags_Swift_Lib=
+				'NS[A-Z][a-zA-Z]{2,64}'
+				+ '|UI[A-Z][a-zA-Z]{2,64}'
+				+ '|CI[A-Z][a-zA-Z]{2,64}'
+				+ '|CK[A-Z][a-zA-Z]{2,64}'
+				+ '|CF[A-Z][a-zA-Z]{2,64}'
+				+ '|AV[A-Z][a-zA-Z]{2,64}'
+				+ '|AU[A-Z][a-zA-Z]{2,64}'
+				+ '|MK[A-Z][a-zA-Z]{2,64}'
+				+ '|MT[A-Z][a-zA-Z]{2,64}'
+				+ '|SC[A-Z][a-zA-Z]{2,64}'
+				+ '|GC[A-Z][a-zA-Z]{2,64}'
+				//...
+				;
+
 			//Array objects to save strings/remarks substituted with internal tags;
 			var vRem=[]; //for remarks (blocks & lines);
 			var vStr=[]; //for Strings;
@@ -533,6 +561,10 @@ try{
 			var _ref_tag=function(){return sRefTag1+(nRefID++)+sRefTag2;};
 
 			var _parse_remark_blocks=function(sSrc, vRemBlockTag){
+
+				//2015.6.18 Apple Swift supports nested comments, but for now not supported by this plugin;
+				//https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
+				//To-do: trace into the multiline comments and track the nested comment tags by counting deepness or running a recursive function;
 
 				//To substitute internal tags for /*...*/ remark blocks;
 				if(vRemBlockTag.constructor === Array){
@@ -806,6 +838,7 @@ try{
 					, 'bash': 'Bash'
 					, 'pascal': 'Pascal'
 					, 'objc': 'Objective-C'
+					, 'swift': 'Swift'
 				};
 
 				var vIDs=[], vLangs=[];
@@ -956,6 +989,12 @@ try{
 							vTags=[
 								{sTags: sTags_ObjC, sColor: c_sColorKeywords}
 								, {sTags: sTags_ObjC_Cocoa, sColor: c_sColorReservedTags3, bRegExp: true}
+							];
+							break;
+						case 'swift':
+							vTags=[
+								{sTags: sTags_Swift, sColor: c_sColorKeywords}
+								, {sTags: sTags_Swift_Lib, sColor: c_sColorReservedTags3, bRegExp: true}
 							];
 							break;
 					}
