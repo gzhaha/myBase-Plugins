@@ -13,7 +13,7 @@ The .js files are **for myBase 7.x only**.
 5. More details can be found in myBase website: [http://www.wjjsoft.com/mybase_jsapi.html#install](http://www.wjjsoft.com/mybase_jsapi.html#install)
 
 **Note:**  
-1. This is **not official plugins** provided by myBase 7.  
+1. There are self-developed plugins and the plugins developed by wjj.  
 2. Use the plugins **at your own risks**.  
 3. Please **fully test** before using to your productive data file.   
 4. Any issues, please raise a issue.  
