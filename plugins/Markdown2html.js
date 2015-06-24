@@ -10,6 +10,11 @@
 //sShortcutKey=
 //sAuthor=Xia Zhang
 
+/////////////////////////////////////////////////////////////////////
+// Extension scripts for myBase Desktop v7.x
+// Copyright 2015 Xia Zhang (MIT Licensed)
+/////////////////////////////////////////////////////////////////////
+
 //This script can change the selected markdown style text to html by utilizing marked.js 
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};

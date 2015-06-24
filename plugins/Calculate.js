@@ -10,6 +10,11 @@
 //sShortcutKey=
 //sAuthor=Xia Zhang
 
+/////////////////////////////////////////////////////////////////////
+// Extension scripts for myBase Desktop v7.x
+// Copyright 2015 Xia Zhang (MIT Licensed)
+/////////////////////////////////////////////////////////////////////
+
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
 
