@@ -68,6 +68,9 @@
 //12:00 6/18/2015
 //added Apple Swift;
 
+//17:34 6/29/2015
+//custom font-family/size for <pre>;
+
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -798,12 +801,14 @@ try{
 				//2015.6.16 "word-wrap: normal" for source code;
 				//http://www.w3schools.com/cssref/pr_text_white-space.asp
 				//http://www.w3schools.com/cssref/css3_pr_word-wrap.asp
+				/*
 				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%; word-wrap: normal"><code>'
 					.replace(/%FONTNAME%/g, c_sFontName)
 					.replace(/%FONTSIZE%/g, c_sFontSize)
 					+ s
 					+ '</code></pre>'
 					;
+				*/
 
 				return s;
 			};
@@ -847,16 +852,41 @@ try{
 					vLangs[vLangs.length]=xLang[i];
 				}
 
-				sCfgKey='SyntaxHighlight.iAction';
-				var sMsg=_lc2('SelLang', 'Please select in which programming language to highlight the code');
-				var iSel=dropdown(sMsg, vLangs, localStorage.getItem(sCfgKey));
-				if(iSel>=0){
+				//2015.6.29 a list of fixed fonts;
+				//http://stackoverflow.com/questions/3995022/pre-tag-and-css-font-family
+				//http://www.w3schools.com/cssref/css_websafe_fonts.asp
+				var vFonts=[
+					'Lucida Console', 'Courier New', 'Consolas', 'serif'
+					, 'Menlo', 'Monaco', 'monospace', 'Liberation Mono'
+					, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono'
+					];
 
-					localStorage.setItem(sCfgKey, iSel);
+				var vSizes=[];
+				for(var i=8; i<=72; ++i){
+					vSizes.push(i+'pt');
+					if(i>=20) i+=3;
+				}
+
+				var sCfgKey0='SyntaxHighlight.nUses', nUses=parseInt(localStorage.getItem(sCfgKey0)||'');
+				var sCfgKey1='SyntaxHighlight.iLang', sCfgKey2='SyntaxHighlight.sFontName', sCfgKey3='SyntaxHighlight.sFontSize';
+				var vFields = [
+					{sField: 'combolist', sLabel: _lc2('Language', 'Language'), vItems: vLangs, sInit: localStorage.getItem(sCfgKey1)||''}
+					, {sField: 'comboedit', sLabel: _lc2('FontName', 'Font name'), vItems: vFonts, sInit: localStorage.getItem(sCfgKey2)||(nUses==0 ? c_sFontName : '')}
+					, {sField: 'comboedit', sLabel: _lc2('FontSize', 'Font size'), vItems: vSizes, sInit: localStorage.getItem(sCfgKey3)||(nUses==0 ? c_sFontSizee : '')}
+					];
+				var vRes=input(plugin.getScriptTitle(), vFields, {nMinSize: 400, vMargins: [6, 0, 30, 0], bVert: false});
+				if(vRes && vRes.length==3){
+
+					var iLang=vRes[0], sFontName=vRes[1], sFontSize=vRes[2];
+
+					localStorage.setItem(sCfgKey0, ++nUses);
+					localStorage.setItem(sCfgKey1, iLang);
+					localStorage.setItem(sCfgKey2, sFontName);
+					localStorage.setItem(sCfgKey3, sFontSize);
 
 					//sSrc='\n'+sSrc;
 
-					var sID=vIDs[iSel];
+					var sID=vIDs[iLang];
 
 					//2015.6.15 For more info about comments in programming languages;
 					//http://www.gavilan.edu/csis/languages/comments.html
@@ -1006,6 +1036,27 @@ try{
 						}else if(sGenre=='html'){
 							//todo ......
 						}
+
+						//2015.6.16 "word-wrap: normal" for source code;
+						//http://www.w3schools.com/cssref/pr_text_white-space.asp
+						//http://www.w3schools.com/cssref/css3_pr_word-wrap.asp
+
+						var s='';
+						{
+							if(sFontName){
+								if(s) s+=' ';
+								s+='font-family: '+sFontName+'; ';
+							}
+							if(sFontSize){
+								if(s) s+=' ';
+								s+='font-size: '+sFontSize+'; ';
+							}
+						}
+
+						sHtml='<pre style="%FONTATTR%word-wrap: normal"><code>'.replace(/%FONTATTR%/g, s)
+							+ sHtml
+							+ '</code></pre>'
+							;
 					}
 
 					if(sHtml){
