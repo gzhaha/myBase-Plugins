@@ -1,10 +1,10 @@
 
 //sValidation=nyfjs
 //sCaption=.mdatt2InfoItem
-//sHint=Load .MD Attachment to InfoItem 02062015
+//sHint=Display .MD Attachment to InfoItem 30062015
 //sCategory=Context.Attachments; MainMenu.Attachments
 //sPosition=XZ-255
-//sCondition=CURDB; DBRW; CURINFOITEM;
+//sCondition=CURDB; DBRW; CURINFOITEM; FILESELECTED
 //sID=p.gzhaha.MarkDownAtta
 //sAppVerMin=7.0
 //sShortcutKey=
@@ -20,6 +20,9 @@
 //For details: www.wjjsoft.com/mybase_v7_jsapi.html#plugin_getSelectedAttachments
 //In addition, Ver7-b20 adds support for non-HTML content (e.g. Markdown) to be rendered and displayed in the HTML editor,
 //This revision tries to reflect the API changes and make markdown content work more smoothly;
+
+//30062015 by gzhaha;
+//added pop-up confirmation if non-MD attachment is selected;
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -41,12 +44,15 @@ try{
 						sSsgFn=xFn.toString();
 					}
 				}
-
+	
 				if(!sSsgFn){
 
 					//For non-MD attachments, a popup asking for confirmation would be safer;
-
-					sSsgFn=vFiles[0]; //consider the first one if no .md documents selected;
+					var sContinue = confirm('This is a non-MD attachment, Continue?');
+					switch (sContinue){
+						case true:
+							sSsgFn=vFiles[0]; //consider the first one if no .md documents selected;
+					}
 				}
 
 				if(sSsgFn){
@@ -57,7 +63,7 @@ try{
 				sMD=plugin.getTextContent()||'';
 			}
 		}
-
+		
 		if(sSsgFn && sMD && sMD.replace(/^\s+|\s+$/g, '')){
 
 			//load marked.js
