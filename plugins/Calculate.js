@@ -1,7 +1,7 @@
 ﻿
 //sValidation=nyfjs
 //sCaption=Calculate
-//sHint=Calculate 02062015
+//sHint=Calculate 02072015
 //sCategory=MainMenu.TxtUtils
 //sPosition=XZ-255
 //sCondition=CURDB; DBRW; CURINFOITEM; HTMLEDIT; HTMLSELECTED
@@ -26,28 +26,34 @@ try{
 	if(xNyf.isOpen()){
 		if(!xNyf.isReadonly()){
 			if(plugin.isContentEditable()){
-				//get selected text from info item edit area
-				var sCon = plugin.getSelectedText(-1, false);
+
 				
 				//load math.js
-				var sFile = plugin.getScriptFile();
-				var jsPath = sFile.substring(0,sFile.lastIndexOf('/'));
-				var s=new CLocalFile(jsPath+"/math.js");
-				var sJs=s.loadText();
-				eval.call(null, sJs);
-				
-				//Calculate
-				try{
-					//remove all space
-					sCon1 = sCon.replace(/\s/g, '')
+				var xFn=new CLocalFile(plugin.getScriptFile());
+				var sDir=xFn.getDirectory();
+				xFn=new CLocalFile(sDir, 'math.js');
+				sCode=xFn.loadText();
+
+				if (sCode){
+					//get selected text from info item edit area
+					var sCon = plugin.getSelectedText(-1, false);
+					eval.call(null, sCode);
 					
-					//Rounding for four digits 
-					var cResult = math.round(math.eval(sCon1)*10000)/10000;
-					var cFinal = sCon + " = " + cResult + ' ';
-					plugin.replaceSelectedText(-1, cFinal, false);
-				}
-				catch(e){
-					alert(e);
+					//Calculate
+					try{
+						//remove all space
+						sCon1 = sCon.replace(/\s/g, '')
+						
+						//Rounding for four digits 
+						var cResult = math.round(math.eval(sCon1)*10000)/10000;
+						var cFinal = sCon + " = " + cResult + ' ';
+						plugin.replaceSelectedText(-1, cFinal, false);
+					}
+					catch(e){
+						alert(e);
+					}
+				}else{
+					alert('Component script file missing.'+'\n\n'+'math.js');	
 				}				
 			}else{
 				alert(_lc('Prompt.Warn.ReadonlyContent', 'Cannot modify the content opened as Readonly.'));
