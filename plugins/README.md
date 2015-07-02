@@ -14,7 +14,7 @@ This folder contains the plugins for myBase 7.x.
 # Plugins Provided by WJJ
 ## 1. Syntax highlight.js ##
 The main contributor of this plugin is WJJ. This plugin supports Syntax highlight for C/C++, C/C++ with STL, Java, C#, Javascript, T-SQL, PHP, Google GO, GNU/R Language and Visual Basic, Perl, ActionScript, Delphi, Pascal, Python, BASH, Ruby, Objective-C, Swift...  
-Currently, this plugin is **under development**.   
+ 
 This function can be accessed by selecting the content and right click menu "Syntax highlight...".
 
 ## 2. Insert quick text.js ##
@@ -22,7 +22,12 @@ This plugin is provided by WJJ. You can use this plug to add pre-defined text to
 
 # Self-developed Plugins (**Unofficial Plugin**)
 >All the **Self-developed Plugins** follow [The MIT License (MIT)](http://opensource.org/licenses/MIT "MIT License") schema.
-
+>
+> **Note:**  
+> - These plugins are self-developed plugins.  
+> - Use these plugins **at your own risks**.  
+> - Please **fully test** before using to your productive data file.   
+> - Please raise a issue if you have any problems using these plugins. 
 
 ## 1. SetFontSize.js
 This plugin can be used to set the font size of current info item.  
