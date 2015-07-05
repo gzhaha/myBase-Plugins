@@ -20,6 +20,10 @@ This function can be accessed by selecting the content and right click menu "Syn
 ## 2. Insert quick text.js ##
 This plugin is provided by WJJ. You can use this plug to add pre-defined text to the HTML edit area. The pre-defined text file (txt file) can be saved under program's install folder, or the script's folder './plugins', or the current database's folder, and or the special sub folder './quicktext' under the program's folder. The file naming format should follow *.q.txt. You can access to this function from right click menu -> Insert -> Insert quick text ...
 
+## 3. Edit with fillable form.js ##
+This plugin can be used to insert and modify a list of fields [key=value] within a fillable form. You can access this function via right click menu "Edit with fillable form ...".
+
+
 # Self-developed Plugins (**Unofficial Plugin**)
 >All the **Self-developed Plugins** follow [The MIT License (MIT)](http://opensource.org/licenses/MIT "MIT License") schema.
 >
