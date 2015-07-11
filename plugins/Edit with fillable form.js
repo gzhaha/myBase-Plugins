@@ -89,7 +89,7 @@ try{
 							}
 						}else if(p<0){
 							if(bNewFields){
-								var k=sLine;
+								var k=_trim(sLine);
 								vFields.push({sKey: k, sVal: '', iPos: -1});
 							}
 						}
@@ -169,7 +169,7 @@ try{
 							}
 
 							var sNew=_trim(vRes[vRes.length-1]||''), bNewFields=true;
-							var v=_parse_fields(sNew.split(';'), bNewFields);
+							var v=_parse_fields(sNew.replace(/\t/g, ',').replace(/;/g, ',').replace(/\|/g, ',').split(','), bNewFields);
 							v0=v0.concat(v);
 
 							_update_field_lines(vLines, v0);
