@@ -21,7 +21,7 @@ This function can be accessed by selecting the content and right click menu "Syn
 This plugin is provided by WJJ. You can use this plug to add pre-defined text to the HTML edit area. The pre-defined text file (txt file) can be saved under program's install folder, or the script's folder './plugins', or the current database's folder, and or the special sub folder './quicktext' under the program's folder. The file naming format should follow *.q.txt. You can access to this function from right click menu -> Insert -> Insert quick text ...
 
 ## 3. Edit with fillable form.js ##
-This plugin can be used to insert and modify a list of fields [key=value] within a fillable form. You can access this function via right click menu "Edit with fillable form ...".
+This plugin can be used to insert and modify a list of fields [key=value] within a fillable form. You can access this function via right click menu "Edit with fillable form ...". When creating multiple 'New fields', you can use ; or , or | as separators.
 
 
 # Self-developed Plugins (**Unofficial Plugin**)
@@ -58,3 +58,6 @@ To access this function, you can highlight any math expression from the info ite
 
 ## 5. Save2QuickText.js
 This plugin can be used to save selected text to Quick text (*.q.txt) file and normal text (txt) file. You can access to this function by selecting the content and via right click menu -> Text Utilities -> Save to Quick Text.
+
+## 6. Export records to CSV file.js
+This plugin is created by peihaowang. It can be used to search the database/branch for a list of specified data records [key=value] and save results in a .csv file.
