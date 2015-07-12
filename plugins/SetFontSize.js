@@ -26,12 +26,16 @@ try{
 	if(xNyf.isOpen()){
 		if(!xNyf.isReadonly()){
 			if(plugin.isContentEditable()){
+				var sCfgKey='gzhaha.SetFontSize';
+				
 				//get text
 				var sCon = plugin.getTextContent(-1, true);
-				var sSiz = prompt('Input Font Size (5-40):', '16', 'Input Font Size');
+				var sSiz = prompt('Input Font Size (5-40):', localStorage.getItem(sCfgKey)||'16', 'Input Font Size');
 				if (sSiz){
 					if (sSiz>=5 && sSiz<=40){
-
+						//save to ini file
+						localStorage.setItem(sCfgKey, sSiz);
+						
 						//match px, pt, %
 						var regx = /font-size:( |)\d{1,2}(|\.\d+)(| )pt|font-size:( |)\d{1,2}(|\.\d+)(| )px|font-size:( |)\d{1,3}(| )%/g;
 						var html = sCon.replace(regx, 'font-size: '+ sSiz + 'pt');
@@ -43,7 +47,7 @@ try{
 						plugin.setDomDirty(-1, true);
 					}
 					else{
-						alert("Value should be 5-40!");
+						alert("Font Size should be 5-40!");
 					}
 				}
 			}else{
