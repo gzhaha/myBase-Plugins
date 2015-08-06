@@ -23,6 +23,8 @@ This plugin is provided by WJJ. You can use this plug to add pre-defined text to
 ## 3. Edit with fillable form.js ##
 This plugin can be used to insert and modify a list of fields [key=value] within a fillable form. You can access this function via right click menu "Edit with fillable form ...". When creating multiple 'New fields', you can use ; or , or | as separators.
 
+## 4. Recover database.js
+This plugin simply invokes the ssg5recover command-line tool to recover corrupted .nyf databases. The required ssg5recover tool is included within the SSG5 command-line package, and can be downloaded from the website: [http://wjjsoft.com/tid_ssg#recover](http://wjjsoft.com/tid_ssg#recover).
 
 # Self-developed Plugins (**Unofficial Plugin**)
 >All the **Self-developed Plugins** follow [The MIT License (MIT)](http://opensource.org/licenses/MIT "MIT License") schema.
