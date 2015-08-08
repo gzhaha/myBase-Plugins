@@ -26,6 +26,9 @@ This plugin can be used to insert and modify a list of fields [key=value] within
 ## 4. Recover database.js
 This plugin simply invokes the ssg5recover command-line tool to recover corrupted .nyf databases. The required ssg5recover tool is included within the SSG5 command-line package, and can be downloaded from the website: [http://wjjsoft.com/tid_ssg#recover](http://wjjsoft.com/tid_ssg#recover).
 
+## 5. Custom table style.js
+This plugin enables professional users manipulating the table style via CSS properties, the available CSS properties could be found [http://www.w3.org/TR/CSS21/propidx.html](http://www.w3.org/TR/CSS21/propidx.html)
+
 # Self-developed Plugins (**Unofficial Plugin**)
 >All the **Self-developed Plugins** follow [The MIT License (MIT)](http://opensource.org/licenses/MIT "MIT License") schema.
 >
