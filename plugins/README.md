@@ -66,3 +66,6 @@ This plugin can be used to save selected text to Quick text (*.q.txt) file and n
 
 ## 6. Export records to CSV file.js
 This plugin is created by peihaowang. It can be used to search the database/branch for a list of specified data records [key=value] and save results in a .csv file.
+
+## 7. SetBackgroundColor.js
+This plugin can be used to set the background color of the infoItem.
