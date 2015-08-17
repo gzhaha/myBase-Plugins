@@ -20,7 +20,7 @@
 /////////////////////////////////////////////////////////////////////
 
 
-//2015.6.6 commit by wjj;
+//2015.6.6 initial commit by wjj;
 //C/C++-like source code supported, such as C/C++, JS, PHP, Java, C#, etc.
 
 //2015.6.6 by gzhaha
@@ -71,6 +71,9 @@
 //17:34 6/29/2015
 //custom font-family/size for <pre>;
 
+//17:25 8/17/2015
+//bugfix: The '<' operator not working in remark blocks;
+//added a safe method to generate the special tags for '<>&...', in case that they could appear in source code, e.g. the script itself;
 
 var _lc=function(sTag, sDef){return plugin.getLocaleMsg(sTag, sDef);};
 var _lc2=function(sTag, sDef){return _lc(plugin.getLocaleID()+'.'+sTag, sDef);};
@@ -699,8 +702,6 @@ try{
 					//.replace(/\\/g, '\\\\')
 					;
 
-				s=_parse_remark_blocks(s, vRemBlockTag);
-
 				var _highlight_numbers=function(sLine, sColor){
 					if(sLine){
 						var sFmt='<span style="color: %COLOR%;">'.replace(/%COLOR%/g, sColor);
@@ -738,7 +739,7 @@ try{
 				};
 
 
-				//2015.6.7 the opertotors (<, &, >) in source code may cause confusion to webkit on parsing them as HTML without pre-transformation;
+				//2015.6.7 the operators (<, &, >) in source code may cause confusion to webkit on parsing them as HTML without pre-transformation;
 				//tried a solution of precedingly transforming < and > operators into HTML entities,
 				//and assumed that 'lt,gt' are not listed as keywords for any languages;
 				//s=s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -749,9 +750,25 @@ try{
 				//2015.6.12 also need to substitute for the $ character, the issue is related to parse '$' in source code.
 				//2015.6.12 also need to substitute for the \ character, the issue is related to parse \\ in source code.
 
-				var sTagLT='`L`T`', sTagGT='`G`T`', sTagAND='`A`N`D`', sTagDL='`D`O`L`', sTagBS='`B`W`S`';
+				//2015.8.17 a safe method to generate the special tags for '<>&...', in case that they could appear in source code, e.g. the script itself;
+				var _make_special=function(s){
+					if(s){
+						var r='';
+						for(var i=0; i<s.length; ++i){
+							r+='`'+s.charAt(i);
+						}
+						return r+'`';
+					}else alert('ERR');
+				};
+
+				//var sTagLT='`L`T`', sTagGT='`G`T`', sTagAND='`A`N`D`', sTagDL='`D`O`L`', sTagBS='`B`W`S`';
+				var sTagLT=_make_special('LT'), sTagGT=_make_special('GT'), sTagAND=_make_special('AND'), sTagDL=_make_special('DL'), sTagBS=_make_special('BS');
+
 				var xReLT=new RegExp(sTagLT, 'g'), xReGT=new RegExp(sTagGT, 'g'), xReAND=new RegExp(sTagAND, 'g'), xReDL=new RegExp(sTagDL, 'g'), xReBS=new RegExp(sTagBS, 'g');
 				s=s.replace(/</g, sTagLT).replace(/>/g, sTagGT).replace(/&/g, sTagAND).replace(/\$/g, sTagDL).replace(/\\/g, sTagBS);
+
+				//2015.8.17 Remark blocks may contain the above special characters such as < >;
+				s=_parse_remark_blocks(s, vRemBlockTag);
 
 				var vLines=s.split('\n');
 
@@ -798,18 +815,6 @@ try{
 
 				s=s.replace(xReLT, '&lt;').replace(xReGT, '&gt;').replace(xReAND, '&amp;').replace(xReDL, '$').replace(xReBS, '\\');
 
-				//2015.6.16 "word-wrap: normal" for source code;
-				//http://www.w3schools.com/cssref/pr_text_white-space.asp
-				//http://www.w3schools.com/cssref/css3_pr_word-wrap.asp
-				/*
-				s='<pre style="font-family: %FONTNAME%; font-size: %FONTSIZE%; word-wrap: normal"><code>'
-					.replace(/%FONTNAME%/g, c_sFontName)
-					.replace(/%FONTSIZE%/g, c_sFontSize)
-					+ s
-					+ '</code></pre>'
-					;
-				*/
-
 				return s;
 			};
 
@@ -836,7 +841,7 @@ try{
 					, 'vb': 'Visual Basic'
 					, 'py': 'Python'
 					, 'pl': 'Perl'
-					, 'acsc': 'ActionScript'
+					, 'as': 'ActionScript'
 					, 'ruby': 'Ruby'
 					, 'delphi': 'Delphi'
 					, 'pigla': 'Pig Latin'
@@ -856,12 +861,13 @@ try{
 				//http://stackoverflow.com/questions/3995022/pre-tag-and-css-font-family
 				//http://www.w3schools.com/cssref/css_websafe_fonts.asp
 				var vFonts=[
-					'Lucida Console', 'Courier New', 'Consolas', 'serif'
+					'|'+_lc('p.Common.Default', 'Default')
+					, 'Lucida Console', 'Courier New', 'Consolas', 'serif'
 					, 'Menlo', 'Monaco', 'monospace', 'Liberation Mono'
 					, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono'
 					];
 
-				var vSizes=[];
+				var vSizes=['|'+_lc('p.Common.Default', 'Default')];
 				for(var i=8; i<=72; ++i){
 					vSizes.push(i+'pt');
 					if(i>=20) i+=3;
@@ -871,10 +877,10 @@ try{
 				var sCfgKey1='SyntaxHighlight.iLang', sCfgKey2='SyntaxHighlight.sFontName', sCfgKey3='SyntaxHighlight.sFontSize';
 				var vFields = [
 					{sField: 'combolist', sLabel: _lc2('Language', 'Language'), vItems: vLangs, sInit: localStorage.getItem(sCfgKey1)||''}
-					, {sField: 'comboedit', sLabel: _lc2('FontName', 'Font name'), vItems: vFonts, sInit: localStorage.getItem(sCfgKey2)||(nUses==0 ? c_sFontName : '')}
-					, {sField: 'comboedit', sLabel: _lc2('FontSize', 'Font size'), vItems: vSizes, sInit: localStorage.getItem(sCfgKey3)||(nUses==0 ? c_sFontSizee : '')}
+					, {sField: 'comboedit', sLabel: _lc2('FontName', 'Font name'), vItems: vFonts, sInit: localStorage.getItem(sCfgKey2)||(nUses==0 ? c_sFontName : ''), bReq: false}
+					, {sField: 'comboedit', sLabel: _lc2('FontSize', 'Font size'), vItems: vSizes, sInit: localStorage.getItem(sCfgKey3)||(nUses==0 ? c_sFontSizee : ''), bReq: false}
 					];
-				var vRes=input(plugin.getScriptTitle(), vFields, {nMinSize: 400, vMargins: [6, 0, 30, 0], bVert: false});
+				var vRes=input(plugin.getScriptTitle(), vFields, {nMinSize: 450, vMargins: [6, 0, 30, 0], bVert: false});
 				if(vRes && vRes.length==3){
 
 					var iLang=vRes[0], sFontName=vRes[1], sFontSize=vRes[2];
@@ -972,7 +978,7 @@ try{
 							vRemBlockTag=[{start: '=pod', end: '=cut'}];
 							vRemLineTag=['#'];
 							break;
-						case 'acsc':
+						case 'as':
 							vTags=[
 								{sTags: sTags_ActionScript, sColor: c_sColorKeywords}
 							];
