@@ -2,8 +2,6 @@
 
 This folder contains the plugins for myBase 7.x.
 
-> **Note:** These plugins are tested in win7 64bit system, and myBase 7.0 beta 20 only. If you want to use in MacOS or Linux environment, please fully test.
- 
 **Usage:**  
 1. Closed the software  
 2. Copy the plugin .js file to .\plugins sub folder.  
@@ -27,7 +25,10 @@ This plugin can be used to insert and modify a list of fields [key=value] within
 This plugin simply invokes the ssg5recover command-line tool to recover corrupted .nyf databases. The required ssg5recover tool is included within the SSG5 command-line package, and can be downloaded from the website: [http://wjjsoft.com/tid_ssg#recover](http://wjjsoft.com/tid_ssg#recover).
 
 ## 5. Custom table style.js
-This plugin enables professional users manipulating the table style via CSS properties, the available CSS properties could be found [http://www.w3.org/TR/CSS21/propidx.html](http://www.w3.org/TR/CSS21/propidx.html)
+This plugin enables professional users manipulating the table style via CSS properties, the available CSS properties could be found [http://www.w3.org/TR/CSS21/propidx.html](http://www.w3.org/TR/CSS21/propidx.html)  
+
+## 6. Open folder location.js  
+This plugin can be used to open the folder location where the current shortcut file resides. You can access to this function via right-click on a 'shortcut' within the attachment pane, then select 'Open folder location' menu item.
 
 # Self-developed Plugins (**Unofficial Plugin**)
 >All the **Self-developed Plugins** follow [The MIT License (MIT)](http://opensource.org/licenses/MIT "MIT License") schema.
@@ -37,6 +38,7 @@ This plugin enables professional users manipulating the table style via CSS prop
 > - Use these plugins **at your own risks**.  
 > - Please **fully test** before using to your productive data file.   
 > - Please raise a issue if you have any problems using these plugins. 
+> - These plugins are tested in win7 64bit system, and myBase 7.0 beta 20 only. If you want to use in MacOS or Linux environment, please fully test.
 
 ## 1. SetFontSize.js
 This plugin can be used to set the font size of current info item.  
