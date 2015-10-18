@@ -30,6 +30,12 @@ This plugin enables professional users manipulating the table style via CSS prop
 ## 6. Open folder location.js  
 This plugin can be used to open the folder location where the current shortcut file resides. You can access to this function via right-click on a 'shortcut' within the attachment pane, then select 'Open folder location' menu item.
 
+## 7. Custom page margin.js  
+This plugin is used to set margin-left/right for <body> element of the current HTML content.
+
+## 8. custom search scope.js  
+This plugin is used to run searches for words or RegExp with in a specified scope.  
+
 # Self-developed Plugins (**Unofficial Plugin**)
 >All the **Self-developed Plugins** follow [The MIT License (MIT)](http://opensource.org/licenses/MIT "MIT License") schema.
 >
@@ -38,7 +44,7 @@ This plugin can be used to open the folder location where the current shortcut f
 > - Use these plugins **at your own risks**.  
 > - Please **fully test** before using to your productive data file.   
 > - Please raise a issue if you have any problems using these plugins. 
-> - These plugins are tested in win7 64bit system, and myBase 7.0 beta 20 only. If you want to use in MacOS or Linux environment, please fully test.
+> - These plugins are tested in win7 64bit system, and myBase 7.0 beta 21 only. If you want to use in MacOS or Linux environment, please fully test.
 
 ## 1. SetFontSize.js
 This plugin can be used to set the font size of current info item.  
