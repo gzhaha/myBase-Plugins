@@ -45,7 +45,9 @@ try{
 						sCon1 = sCon.replace(/\s/g, '')
 						
 						//Rounding for four digits 
-						var cResult = math.round(math.eval(sCon1)*10000)/10000;
+						//var cResult = math.round(math.eval(sCon1)*10000)/10000;
+						//11.01.2016 change to "toFixed", 4 is used to restrict the number digits
+						var cResult = math.eval(sCon1).toFixed(4);
 						var cFinal = sCon + " = " + cResult + ' ';
 						plugin.replaceSelectedText(-1, cFinal, false);
 					}
