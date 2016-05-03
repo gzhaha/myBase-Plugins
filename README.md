@@ -16,5 +16,5 @@ The .js files are **for myBase 7.x only**.
 1. There are self-developed plugins and the plugins developed by wjj.  
 2. Use the plugins **at your own risks**.  
 3. Please **fully test** before using to your productive data file.   
-4. Any issues, please raise a issue.  
+4. Any issues, please raise an issue.  
 
