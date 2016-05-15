@@ -81,4 +81,4 @@ This plugin can be used to save selected text to Quick text (*.q.txt) file and n
 This plugin can be used to set the background color of the infoItem.
 
 ## 7. SetBackgroundImg.js
-This plugin can be used to set the background image of the infoItem. (**Need to put the desired image file in the info item first**)
+This plugin can be used to set the background image of the infoItem. (**Need to put the desired image file in the attachment of info item first**)
