@@ -1,0 +1,106 @@
+﻿<script>
+document.addEventListener("load", gentoc(), false);
+function gentoc (){ 
+        
+        var bodychildren=document.body.children;
+        for(var i=0;i<bodychildren.length;i++)
+        {
+            bodychildren[i].className="main_text_part";
+            console.log(bodychildren[i].tagName);
+            console.log(bodychildren[i].className);
+        }
+        
+        var main_content=document.createElement("div")
+        main_content.className="maincontent";
+        document.body.insertBefore(main_content,document.body.firstChild);
+        main_content.style.cssText += "position:relative;\
+                                width:auto;\
+                                height:auto;\
+                                margin:auto";
+
+        var lables = document.querySelectorAll('.main_text_part')       
+        var right_content=document.createElement("div");
+        right_content.className="maintext";
+        for(var i=0;i<lables.length-1;i++)
+        {
+            right_content.appendChild(lables[i]);
+        }
+        main_content.appendChild(right_content);
+        right_content.style.cssText += "width:80%;float:right;";
+
+        var left_content=document.createElement("div");
+        left_content.className="lefttoc";
+        left_content.style.cssText +="width:20%;float:left;";
+        main_content.appendChild(left_content);
+
+
+
+        var toc = document.getElementById("TOC");
+        if (!toc) {
+            toc = document.createElement("div");
+            toc.id = "TOC";
+            left_content.appendChild(toc);
+        }
+
+        var headings;
+        if (document.querySelectorAll) 
+            headings = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        else   
+            headings = findHeadings(document.body, []);
+
+        function findHeadings(root, sects) {
+            for(var c = root.firstChild; c != null; c = c.nextSibling) {
+                if (c.nodeType !== 1) continue;
+                if (c.tagName.length == 2 && c.tagName.charAt(0) == "H")
+                    sects.push(c);
+                else 
+                    findHeadings(c, sects);
+            }
+            return sects;
+        }
+
+        var sectionNumbers = [0,0,0,0,0,0];
+
+        for(var h = 0; h < headings.length; h++) {
+            var heading = headings[h];
+
+            if (heading.parentNode == toc) continue;
+
+            var level = parseInt(heading.tagName.charAt(1));
+            if (isNaN(level) || level < 1 || level > 6) continue;
+
+            sectionNumbers[level-1]++;
+            for(var i = level; i < 6; i++) sectionNumbers[i] = 0;
+
+            var sectionNumber = sectionNumbers.slice(0,level).join(".")
+
+            var span = document.createElement("span");          
+            span.className = "TOCSectNum";            
+            span.innerHTML = sectionNumber;                
+            heading.insertBefore(span, heading.firstChild);
+
+            var anchor = document.createElement("a");           
+            anchor.name = "TOC"+sectionNumber; 
+            heading.parentNode.insertBefore(anchor, heading); 
+            anchor.appendChild(heading);                       
+
+            var link = document.createElement("a");
+            link.href = "#TOC" + sectionNumber; 
+            link.innerHTML = heading.innerHTML; 
+
+            var entry = document.createElement("div");
+            entry.className = "TOCEntry TOCLevel" + level; 
+            entry.appendChild(link);
+            entry.style.paddingLeft=20*(level-1)+"px";
+            
+            toc.appendChild(entry);
+        }
+        toc.style.position = "fixed";
+        toc.style.zIndex = "9999";
+        toc.style.backgroundColor = "#ffffff87"; 
+        toc.style.overflowY = "scroll";
+        toc.style.width = "20%";  
+        toc.style.height = "500px";
+
+}
+</script>
